@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IHSG Market Brief — VisionOS Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --glass: rgba(255,255,255,0.72);
+    --glass2: rgba(255,255,255,0.55);
+    --glass3: rgba(255,255,255,0.35);
+    --border: rgba(255,255,255,0.9);
+    --border2: rgba(200,215,235,0.6);
+    --shadow: 0 8px 32px rgba(100,130,180,0.18), 0 2px 8px rgba(100,130,180,0.10), inset 0 1px 0 rgba(255,255,255,0.8);
+    --shadow-hover: 0 20px 50px rgba(80,110,160,0.22), 0 4px 16px rgba(80,110,160,0.12), inset 0 1px 0 rgba(255,255,255,0.9);
+    --green: #1DB954; --green-l: rgba(29,185,84,0.10);
+    --red: #FF3B30; --red-l: rgba(255,59,48,0.09);
+    --blue: #007AFF; --blue-l: rgba(0,122,255,0.09);
+    --orange: #FF9500; --orange-l: rgba(255,149,0,0.09);
+    --purple: #AF52DE;
+    --text: #1A2332; --text2: #4A5568; --text3: #8A9BB0;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: var(--font);
+    background: linear-gradient(145deg,#E4EEF9 0%,#EBF0F8 25%,#F0EBF8 55%,#E8F5EF 85%,#EDF2F8 100%);
+    min-height: 100vh; color: var(--text); padding: 24px;
+    position: relative; overflow-x: hidden;
+  }
+  body::before {
+    content:''; position:fixed; top:-15%; left:-8%; width:55vw; height:55vw; border-radius:50%;
+    background: radial-gradient(circle,rgba(0,122,255,0.07) 0%,transparent 70%);
+    pointer-events:none; animation:orb1 9s ease-in-out infinite;
+  }
+  body::after {
+    content:''; position:fixed; bottom:-20%; right:-10%; width:50vw; height:50vw; border-radius:50%;
+    background: radial-gradient(circle,rgba(175,82,222,0.05) 0%,transparent 70%);
+    pointer-events:none; animation:orb2 11s ease-in-out infinite;
+  }
+  @keyframes orb1{0%,100%{transform:translate(0,0);}50%{transform:translate(3%,2%);}}
+  @keyframes orb2{0%,100%{transform:translate(0,0);}50%{transform:translate(-2%,-3%);}}
+
+  .page { max-width:1380px; margin:0 auto; position:relative; z-index:1; }
+
+  /* GLASS SYSTEM */
+  .g {
+    background: var(--glass);
+    backdrop-filter: blur(28px) saturate(1.9);
+    -webkit-backdrop-filter: blur(28px) saturate(1.9);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+    transition: box-shadow .45s cubic-bezier(.34,1.56,.64,1), transform .45s cubic-bezier(.34,1.56,.64,1);
+  }
+  .g:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+
+  /* ANIMATIONS */
+  .fu { opacity:0; transform:translateY(22px); animation:fu .7s cubic-bezier(.34,1.56,.64,1) forwards; }
+  @keyframes fu { to{opacity:1;transform:translateY(0);} }
+  .d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}
+  .d4{animation-delay:.24s}.d5{animation-delay:.30s}.d6{animation-delay:.36s}
+  .d7{animation-delay:.42s}.d8{animation-delay:.48s}
+
+  /* TYPOGRAPHY HELPERS */
+  .eyebrow { font-size:10px; font-weight:600; letter-spacing:2.5px; text-transform:uppercase; color:var(--text3); }
+  .sec-title { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text3);
+    display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+  .sec-title::after { content:''; flex:1; height:1px; background:var(--border2); }
+
+  /* PILLS / BADGES */
+  .pill { display:inline-flex; align-items:center; gap:4px; border-radius:20px; padding:4px 12px; font-size:12px; font-weight:600; }
+  .pill-g { background:var(--green-l); color:var(--green); border:1px solid rgba(29,185,84,.22); }
+  .pill-r { background:var(--red-l); color:var(--red); border:1px solid rgba(255,59,48,.22); }
+  .pill-b { background:var(--blue-l); color:var(--blue); border:1px solid rgba(0,122,255,.22); }
+  .pill-o { background:var(--orange-l); color:var(--orange); border:1px solid rgba(255,149,0,.22); }
+  .pill-p { background:rgba(175,82,222,.09); color:var(--purple); border:1px solid rgba(175,82,222,.22); }
+
+  /* LAYOUT GRIDS */
+  .row { display:grid; gap:16px; margin-bottom:16px; }
+  .col3 { grid-template-columns:1fr 1fr 1fr; }
+  .col2 { grid-template-columns:1fr 1fr; }
+  .col-hero { grid-template-columns:1.3fr 1fr 1fr; }
+  .col-map { grid-template-columns:1.2fr 1fr; }
+
+  /* ─── HEADER ─── */
+  .header { display:flex; justify-content:space-between; align-items:center; padding:20px 26px; margin-bottom:18px; }
+  .brand { display:flex; align-items:center; gap:14px; }
+  .brand-icon {
+    width:46px; height:46px; border-radius:14px;
+    background:linear-gradient(145deg,#007AFF,#5AC8FA);
+    display:flex; align-items:center; justify-content:center; font-size:22px;
+    box-shadow:0 4px 14px rgba(0,122,255,.32);
+    animation:pglow 3.5s ease-in-out infinite;
+  }
+  @keyframes pglow{0%,100%{box-shadow:0 4px 14px rgba(0,122,255,.32);}50%{box-shadow:0 4px 22px rgba(0,122,255,.52);}}
+  .brand-lbl { font-size:10px; font-weight:600; letter-spacing:2.5px; text-transform:uppercase; color:var(--blue); margin-bottom:2px; }
+  .brand-name { font-size:21px; font-weight:800; color:var(--text); letter-spacing:-.3px; }
+  .hright { display:flex; align-items:center; gap:10px; }
+  .dpill { background:var(--glass2); border:1px solid var(--border); border-radius:22px; padding:6px 16px; font-size:12px; font-weight:500; color:var(--text2); backdrop-filter:blur(14px); }
+  .live { display:flex; align-items:center; gap:6px; background:rgba(29,185,84,.1); border:1px solid rgba(29,185,84,.28); border-radius:22px; padding:6px 14px; font-size:12px; font-weight:600; color:var(--green); }
+  .dot { width:7px; height:7px; border-radius:50%; background:var(--green); animation:blink 1.6s ease infinite; }
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+
+  /* ─── IHSG HERO ─── */
+  .hero { padding:28px; }
+  .hero-val { font-size:56px; font-weight:900; letter-spacing:-2px; color:var(--text); line-height:1; }
+  .hero-sub { margin-top:10px; font-size:12px; color:var(--text3); }
+  .spark-wrap { margin-top:18px; }
+  svg.spark { width:100%; height:52px; overflow:visible; }
+
+  /* ─── S/R GAUGE ─── */
+  .sr { padding:24px; }
+  .gauge-track { height:8px; border-radius:4px; position:relative; margin:12px 0; overflow:visible;
+    background:linear-gradient(90deg,rgba(255,59,48,.18) 0%,rgba(255,149,0,.18) 50%,rgba(29,185,84,.18) 100%); }
+  .gauge-bar { position:absolute; inset:0; border-radius:4px; background:linear-gradient(90deg,#FF3B30,#FF9500 50%,#1DB954); opacity:.45; }
+  .gauge-pin { position:absolute; top:50%; transform:translate(-50%,-50%); width:18px; height:18px; border-radius:50%; background:white; border:2.5px solid var(--blue); box-shadow:0 2px 10px rgba(0,122,255,.35); transition:left .9s cubic-bezier(.34,1.56,.64,1); }
+  .current-box { background:var(--blue-l); border:1px solid rgba(0,122,255,.2); border-radius:14px; padding:12px 16px; margin-top:10px; }
+
+  /* ─── SENTIMENT DONUT ─── */
+  .sent { padding:24px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+
+  /* ─── MACRO CARD ─── */
+  .mc { padding:20px; }
+  .mc-icon { font-size:24px; margin-bottom:10px; }
+  .mc-name { font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--text3); margin-bottom:6px; }
+  .mc-val { font-size:28px; font-weight:800; line-height:1; margin-bottom:7px; }
+  .mc-desc { font-size:11.5px; color:var(--text3); line-height:1.55; }
+
+  /* ─── CHART ─── */
+  .chart-card { padding:24px; }
+  .chart-hdr { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
+  .tabs { display:flex; gap:5px; }
+  .tab { padding:5px 13px; border-radius:12px; font-size:11px; font-weight:600; cursor:pointer; border:1px solid transparent; color:var(--text3); transition:all .2s ease; }
+  .tab.on { background:var(--blue); color:white; box-shadow:0 2px 10px rgba(0,122,255,.3); }
+  .tab:hover:not(.on) { background:var(--glass2); border-color:var(--border2); color:var(--text); }
+  svg.lc { width:100%; height:165px; overflow:visible; }
+  .ct { position:absolute; background:var(--glass); backdrop-filter:blur(20px); border:1px solid var(--border); border-radius:14px; padding:10px 14px; font-size:11px; pointer-events:none; opacity:0; transition:opacity .18s; box-shadow:0 8px 24px rgba(100,130,180,.2); z-index:100; white-space:nowrap; color:var(--text); }
+  .ct.on { opacity:1; }
+
+  /* ─── POSITION CHANGE ─── */
+  .pc { padding:22px; }
+  .pc-row { display:flex; align-items:flex-start; gap:10px; padding:10px 12px; border-radius:12px; margin-bottom:8px; }
+  .pc-row.ex { background:rgba(255,59,48,.06); }
+  .pc-row.en { background:rgba(29,185,84,.06); }
+  .pc-lbl { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; width:38px; flex-shrink:0; padding-top:2px; }
+  .pc-ticker { font-size:14px; font-weight:800; color:var(--text); margin-bottom:2px; }
+  .pc-reason { font-size:11px; color:var(--text3); line-height:1.5; }
+
+  /* ─── STOCK CARD ─── */
+  .sc { padding:24px; position:relative; overflow:hidden; }
+  .sc::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:22px 22px 0 0; }
+  .sc.buy::before { background:linear-gradient(90deg,#1DB954,#34D16F); }
+  .sc.rebound::before { background:linear-gradient(90deg,#007AFF,#5AC8FA); }
+  .sc-hdr { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+  .sc-ticker { font-size:24px; font-weight:900; letter-spacing:-.5px; color:var(--text); }
+  .sc-name { font-size:11px; color:var(--text3); margin-top:3px; }
+  .sc-price-val { font-size:20px; font-weight:700; text-align:right; }
+  .metrics { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:13px; }
+  .mpill { background:var(--glass3); border:1px solid var(--border2); border-radius:10px; padding:6px 11px; font-size:10px; backdrop-filter:blur(8px); }
+  .mpill-lbl { color:var(--text3); margin-bottom:1px; }
+  .mpill-val { font-weight:700; color:var(--text); font-size:12px; }
+  .thesis { font-size:12px; color:var(--text2); line-height:1.65; }
+  .rr { margin-top:13px; }
+  .rr-track { height:7px; border-radius:4px; background:rgba(200,215,235,.45); overflow:hidden; margin-top:5px; }
+  .rr-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,var(--blue),var(--green)); transition:width 1.2s cubic-bezier(.34,1.56,.64,1); }
+
+  /* ─── MAP ─── */
+  .map-card { padding:24px; }
+  svg.kmap { width:100%; height:260px; overflow:visible; }
+  .prov { transition:all .28s ease; cursor:pointer; }
+  .prov:hover { filter:brightness(1.12) drop-shadow(0 3px 8px rgba(0,0,0,.14)); }
+  .mtt { position:absolute; background:var(--glass); backdrop-filter:blur(22px); border:1px solid var(--border); border-radius:14px; padding:10px 14px; pointer-events:none; opacity:0; transition:opacity .2s; box-shadow:0 8px 24px rgba(100,130,180,.2); z-index:100; white-space:nowrap; min-width:150px; }
+  .mtt.on { opacity:1; }
+  .mtt-title { font-size:12px; font-weight:700; color:var(--text); margin-bottom:5px; }
+  .mtt-row { display:flex; justify-content:space-between; gap:14px; font-size:11px; color:var(--text2); margin-bottom:2px; }
+  .mtt-val { font-weight:700; }
+  .legend { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .leg { display:flex; align-items:center; gap:5px; font-size:10px; color:var(--text3); }
+  .ldot { width:10px; height:10px; border-radius:3px; }
+
+  /* ─── AVOID / STRATEGY ─── */
+  .avoid-card { padding:22px; }
+  .atag { display:inline-flex; background:rgba(255,59,48,.08); border:1px solid rgba(255,59,48,.2); border-radius:9px; padding:5px 13px; font-size:12px; font-weight:600; color:var(--red); transition:all .2s; cursor:default; }
+  .atag:hover { background:rgba(255,59,48,.14); transform:scale(1.06); }
+  .strat-card { padding:22px; }
+  .sbox { border-radius:14px; padding:12px 14px; text-align:center; }
+  .sbox-lbl { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
+  .sbox-val { font-size:13px; font-weight:700; color:var(--text); }
+  .si { display:flex; align-items:flex-start; gap:9px; margin-bottom:9px; }
+  .si-dot { width:6px; height:6px; border-radius:50%; margin-top:6px; flex-shrink:0; }
+  .si-text { font-size:12px; color:var(--text2); line-height:1.6; }
+
+  /* ─── DISCLAIMER ─── */
+  .disc { text-align:center; font-size:10px; color:var(--text3); line-height:1.7; padding:16px 24px; border-top:1px solid var(--border2); margin-top:4px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="g header fu d1">
+  <div class="brand">
+    <div class="brand-icon">📊</div>
+    <div>
+      <div class="brand-lbl">IDX · Bursa Efek Indonesia</div>
+      <div class="brand-name">IHSG Market Brief</div>
+    </div>
+  </div>
+  <div class="hright">
+    <div class="dpill">Selasa, 10 Maret 2026</div>
+    <div class="dpill">Sesi I · 09:23 WIB</div>
+    <div class="live"><div class="dot"></div> LIVE</div>
+  </div>
+</div>
+
+<!-- ROW 1: IHSG + SR + Sentiment -->
+<div class="row col-hero fu d2">
+  <!-- IHSG -->
+  <div class="g hero">
+    <div class="eyebrow">IHSG · Composite Index</div>
+    <div class="hero-val" style="margin-top:6px;">7,470</div>
+    <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+      <span class="pill pill-g">▲ +1.82%</span>
+      <span style="font-size:13px;color:var(--text3);">+133.64 pts</span>
+    </div>
+    <div class="hero-sub">Prev close: 7,337 &nbsp;·&nbsp; Vol: Rp4.2T (Sesi I)</div>
+    <div class="spark-wrap">
+      <div class="eyebrow" style="margin-bottom:8px;">5-Hari Terakhir</div>
+      <svg class="spark" viewBox="0 0 300 52" id="spark-svg">
+        <defs>
+          <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#007AFF" stop-opacity=".22"/>
+            <stop offset="100%" stop-color="#007AFF" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path id="sa" fill="url(#sg)"/>
+        <path id="sl" fill="none" stroke="#007AFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <g id="sd"/>
+      </svg>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text3);margin-top:2px;padding:0 4px;">
+        <span>4 Mar</span><span>5 Mar</span><span>6 Mar</span><span>9 Mar</span><span>10 Mar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- S/R -->
+  <div class="g sr">
+    <div class="sec-title">Support & Resistance</div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+      <div></div>
+      <div style="text-align:right;">
+        <div style="font-size:15px;font-weight:700;color:var(--red);">R2 · 7,712</div>
+        <div style="font-size:13px;font-weight:600;color:var(--red);opacity:.7;">R1 · 7,481</div>
+      </div>
+    </div>
+    <div class="gauge-track">
+      <div class="gauge-bar"></div>
+      <div class="gauge-pin" id="gpin" style="left:62%;"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:var(--green);">S1 · 7,200</div>
+        <div style="font-size:13px;font-weight:600;color:var(--green);opacity:.7;">S2 · 7,071</div>
+      </div>
+    </div>
+    <div class="current-box">
+      <div class="eyebrow" style="margin-bottom:4px;">Posisi Saat Ini</div>
+      <div style="font-size:26px;font-weight:800;color:var(--text);">7,470</div>
+      <div style="font-size:11px;color:var(--text3);">Antara S1 (7,200) dan R1 (7,481)</div>
+    </div>
+    <div style="margin-top:12px;font-size:11px;color:var(--text3);line-height:1.6;">⚠️ Masih di bawah SMA 200-hari — bukan reversal struktural</div>
+  </div>
+
+  <!-- SENTIMENT -->
+  <div class="g sent">
+    <div class="sec-title" style="width:100%;">Sentimen Pasar</div>
+    <div style="position:relative;width:128px;height:128px;margin:0 auto 16px;">
+      <svg viewBox="0 0 128 128" style="width:128px;height:128px;transform:rotate(-90deg);">
+        <circle cx="64" cy="64" r="50" fill="none" stroke="rgba(200,215,235,.4)" stroke-width="11"/>
+        <circle cx="64" cy="64" r="50" fill="none" stroke="#1DB954" stroke-width="11"
+          stroke-dasharray="314" stroke-dashoffset="110" stroke-linecap="round"
+          style="transition:stroke-dashoffset 1.6s cubic-bezier(.34,1.56,.64,1);"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <div style="font-size:26px;font-weight:900;color:var(--green);">65%</div>
+        <div style="font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);">Bullish</div>
+      </div>
+    </div>
+    <div style="width:100%;display:flex;gap:7px;">
+      <div style="flex:1;background:rgba(29,185,84,.08);border:1px solid rgba(29,185,84,.18);border-radius:12px;padding:9px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:var(--green);">522</div>
+        <div style="font-size:9px;color:var(--text3);">Naik</div>
+      </div>
+      <div style="flex:1;background:rgba(200,215,235,.3);border:1px solid rgba(200,215,235,.5);border-radius:12px;padding:9px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:var(--text3);">77</div>
+        <div style="font-size:9px;color:var(--text3);">Stagnan</div>
+      </div>
+      <div style="flex:1;background:rgba(255,59,48,.08);border:1px solid rgba(255,59,48,.18);border-radius:12px;padding:9px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:var(--red);">120</div>
+        <div style="font-size:9px;color:var(--text3);">Turun</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ROW 2: MACRO 3-col -->
+<div class="row col3 fu d3">
+  <div class="g mc">
+    <div class="mc-icon">🛢️</div>
+    <div class="mc-name">WTI Crude Oil</div>
+    <div class="mc-val" style="color:var(--red);">$85.30</div>
+    <div style="margin-bottom:8px;"><span class="pill pill-r">▼ −10% dari $101</span></div>
+    <div class="mc-desc">Trump: perang Iran "basically over" → G7 lepas SPR → crude oil koreksi tajam dari $101/barel kemarin</div>
+  </div>
+  <div class="g mc">
+    <div class="mc-icon">💱</div>
+    <div class="mc-name">USD / IDR</div>
+    <div class="mc-val" style="color:var(--green);">Rp16,869</div>
+    <div style="margin-bottom:8px;"><span class="pill pill-g">▲ Menguat dari 16,940</span></div>
+    <div class="mc-desc">Rupiah menguat seiring sentimen risiko mereda. Positif untuk sektor perbankan & impor bahan baku.</div>
+  </div>
+  <div class="g mc">
+    <div class="mc-icon">📈</div>
+    <div class="mc-name">Wall Street (Senin)</div>
+    <div class="mc-val" style="color:var(--green);">+0.83%</div>
+    <div style="margin-bottom:8px;"><span class="pill pill-g">S&P 500 · Hijau</span></div>
+    <div class="mc-desc">S&P500 +0.83%, Nasdaq +1.38%, Dow +0.5%. Seluruh bursa Asia hari ini positif mengikuti Wall Street.</div>
+  </div>
+  <div class="g mc">
+    <div class="mc-icon">🏦</div>
+    <div class="mc-name">Fitch Rating</div>
+    <div class="mc-val" style="color:var(--orange);font-size:20px;">BBB NEGATIVE</div>
+    <div style="margin-bottom:8px;"><span class="pill pill-o">Outlook Negatif</span></div>
+    <div class="mc-desc">Fitch revisi outlook ke NEGATIVE. Tetap investment grade, namun potensi outflow asing masih ada.</div>
+  </div>
+  <div class="g mc">
+    <div class="mc-icon">🧭</div>
+    <div class="mc-name">IKK Feb 2026</div>
+    <div class="mc-val" style="color:var(--orange);">125.2</div>
+    <div style="margin-bottom:8px;"><span class="pill pill-o">▼ dari 127.0</span></div>
+    <div class="mc-desc">Indeks Keyakinan Konsumen turun dari 127 (Jan) → 125.2 (Feb). Sinyal pelemahan daya beli.</div>
+  </div>
+  <div class="g mc">
+    <div class="mc-icon">🌏</div>
+    <div class="mc-name">Geopolitik</div>
+    <div class="mc-val" style="color:var(--green);font-size:20px;">MEREDA</div>
+    <div style="margin-bottom:8px;"><span class="pill pill-g">Selat Hormuz Buka</span></div>
+    <div class="mc-desc">Selat Hormuz diperkirakan kembali normal. Supply chain energi global pulih. Risk-off reversal terjadi.</div>
+  </div>
+</div>
+
+<!-- ROW 3: IHSG Line Chart + Position Change -->
+<div class="row col2 fu d4">
+  <!-- CHART -->
+  <div class="g chart-card">
+    <div class="chart-hdr">
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);">Tren 5 Hari</div>
+        <div style="font-size:11px;color:var(--text3);">Hover titik untuk detail</div>
+      </div>
+      <div class="tabs">
+        <div class="tab on" onclick="switchChart('ihsg',this)">IHSG</div>
+        <div class="tab" onclick="switchChart('wti',this)">WTI</div>
+        <div class="tab" onclick="switchChart('idr',this)">USD/IDR</div>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <svg class="lc" id="mc" viewBox="0 0 480 165">
+        <defs>
+          <linearGradient id="lg-b" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#007AFF" stop-opacity=".18"/><stop offset="100%" stop-color="#007AFF" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="lg-r" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FF3B30" stop-opacity=".18"/><stop offset="100%" stop-color="#FF3B30" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="lg-g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1DB954" stop-opacity=".18"/><stop offset="100%" stop-color="#1DB954" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="35" x2="480" y2="35" stroke="rgba(200,215,235,.4)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="0" y1="75" x2="480" y2="75" stroke="rgba(200,215,235,.4)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="0" y1="115" x2="480" y2="115" stroke="rgba(200,215,235,.4)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="0" y1="145" x2="480" y2="145" stroke="rgba(200,215,235,.4)" stroke-width="1"/>
+        <path id="ca" fill="url(#lg-b)"/>
+        <path id="cl" fill="none" stroke="#007AFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <g id="cd"/>
+        <line id="cxl" x1="0" y1="10" x2="0" y2="145" stroke="rgba(0,122,255,.35)" stroke-width="1" stroke-dasharray="4,2" style="opacity:0;"/>
+        <circle id="cxd" cx="0" cy="0" r="5.5" fill="#007AFF" stroke="white" stroke-width="2.5" style="opacity:0;"/>
+      </svg>
+      <div class="ct" id="ctt"></div>
+    </div>
+    <div id="cxl-labels" style="display:flex;justify-content:space-between;font-size:9px;color:var(--text3);margin-top:5px;padding:0 6px;"></div>
+  </div>
+
+  <!-- POSITION CHANGE -->
+  <div class="g pc">
+    <div class="sec-title">Perubahan Posisi</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.65;">Rotasi: <strong style="color:var(--text);">High Oil Play → Rebound & Defensive</strong> seiring crude −10%</div>
+    <div style="margin-bottom:16px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:8px;">⬇ EXIT</div>
+      <div class="pc-row ex"><div class="pc-lbl" style="color:var(--red);">EXIT</div><div><div class="pc-ticker">MEDC</div><div class="pc-reason">Oil thesis melemah; profit-taking jika sudah +5–15%</div></div></div>
+      <div class="pc-row ex"><div class="pc-lbl" style="color:var(--red);">EXIT</div><div><div class="pc-ticker">ENRG</div><div class="pc-reason">WTI koreksi tajam $101→$85. Trigger stop loss aktif.</div></div></div>
+    </div>
+    <div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:8px;">⬆ ENTER</div>
+      <div class="pc-row en"><div class="pc-lbl" style="color:var(--green);">NEW</div><div><div class="pc-ticker">ADRO</div><div class="pc-reason">Coal demand independen dari crude. Buy volume on dip = akumulasi institusional.</div></div></div>
+      <div class="pc-row en"><div class="pc-lbl" style="color:var(--green);">NEW</div><div><div class="pc-ticker">BBRI</div><div class="pc-reason">Banking paling oversold → rebound terbesar. Rupiah menguat = positif NIM.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ROW 4: STOCK PICKS -->
+<div class="row col2 fu d5">
+  <!-- ADRO -->
+  <div class="g sc buy">
+    <div class="sc-hdr">
+      <div>
+        <div class="sc-ticker">ADRO</div>
+        <div class="sc-name">PT Alamtri Resources Indonesia Tbk</div>
+        <div style="margin-top:8px;"><span class="pill pill-g" style="font-size:10px;">🥇 PRIMARY PICK</span></div>
+      </div>
+      <div>
+        <div class="sc-price-val">Rp2,350</div>
+        <div style="font-size:11px;color:var(--text3);text-align:right;">Koreksi + buy vol</div>
+      </div>
+    </div>
+    <div class="metrics">
+      <div class="mpill"><div class="mpill-lbl">Entry</div><div class="mpill-val">2,300–2,380</div></div>
+      <div class="mpill"><div class="mpill-lbl">Target</div><div class="mpill-val" style="color:var(--green);">2,550–2,650</div></div>
+      <div class="mpill"><div class="mpill-lbl">Stop Loss</div><div class="mpill-val" style="color:var(--red);">2,200</div></div>
+      <div class="mpill"><div class="mpill-lbl">R/R</div><div class="mpill-val" style="color:var(--blue);">1 : 2</div></div>
+    </div>
+    <div class="thesis">Coal demand dari China & India bersifat independen dari harga crude oil. Volume beli pada dip menunjukkan sinyal akumulasi institusional. ADRO saat ini di atas MA20, tidak terdampak langsung penurunan minyak mentah hari ini.</div>
+    <div class="rr">
+      <div class="eyebrow">Risk / Reward</div>
+      <div class="rr-track"><div class="rr-fill" style="width:67%;"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text3);margin-top:3px;"><span>Risk (1×)</span><span>Reward (2×)</span></div>
+    </div>
+  </div>
+
+  <!-- BBRI -->
+  <div class="g sc rebound">
+    <div class="sc-hdr">
+      <div>
+        <div class="sc-ticker">BBRI</div>
+        <div class="sc-name">PT Bank Rakyat Indonesia (Persero) Tbk</div>
+        <div style="margin-top:8px;"><span class="pill pill-b" style="font-size:10px;">📈 REBOUND PLAY</span></div>
+      </div>
+      <div>
+        <div class="sc-price-val">~Rp4,100</div>
+        <div style="font-size:11px;color:var(--text3);text-align:right;">Oversold bounce</div>
+      </div>
+    </div>
+    <div class="metrics">
+      <div class="mpill"><div class="mpill-lbl">Entry</div><div class="mpill-val">4,050–4,150</div></div>
+      <div class="mpill"><div class="mpill-lbl">Target</div><div class="mpill-val" style="color:var(--green);">4,350–4,500</div></div>
+      <div class="mpill"><div class="mpill-lbl">Stop Loss</div><div class="mpill-val" style="color:var(--red);">3,950</div></div>
+      <div class="mpill"><div class="mpill-lbl">R/R</div><div class="mpill-val" style="color:var(--blue);">1 : 1.8</div></div>
+    </div>
+    <div class="thesis">Sektor perbankan paling oversold kemarin → potensi rebound terbesar. Penguatan Rupiah ke Rp16,869 positif untuk Net Interest Margin. Short-term trade 3–5 hari — bukan posisi strategis jangka panjang. Disiplin pada stop loss Rp3,950.</div>
+    <div class="rr">
+      <div class="eyebrow">Risk / Reward</div>
+      <div class="rr-track"><div class="rr-fill" style="width:64%;"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text3);margin-top:3px;"><span>Risk (1×)</span><span>Reward (1.8×)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ROW 5: AVOID + STRATEGY -->
+<div class="row col2 fu d6">
+  <div class="g avoid-card">
+      <div class="sec-title">Saham Dihindari</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:12px;">Risiko lanjutan atau fundamental lemah hari ini</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <div class="atag">MEDC</div><div class="atag">ENRG</div><div class="atag">ELSA</div>
+        <div class="atag">RAJA</div><div class="atag">PGAS</div><div class="atag">BSDE</div><div class="atag">SMGR</div>
+      </div>
+      <div style="margin-top:12px;padding:10px 13px;background:rgba(255,59,48,.06);border:1px solid rgba(255,59,48,.12);border-radius:12px;font-size:11px;color:var(--text3);line-height:1.65;">
+        ⚠️ <strong style="color:var(--red);">Oil & Gas</strong> (MEDC, ENRG, ELSA, PGAS): crude −10% hari ini.<br>
+        <strong style="color:var(--red);">Properti & Semen</strong> (BSDE, SMGR): high-rate environment.
+      </div>
+    </div>
+
+    <div class="g strat-card">
+      <div class="sec-title">Strategi Hari Ini</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+        <div class="sbox" style="background:var(--blue-l);border:1px solid rgba(0,122,255,.2);">
+          <div class="sbox-lbl" style="color:var(--blue);">Tema</div>
+          <div class="sbox-val">Technical Rebound</div>
+        </div>
+        <div class="sbox" style="background:var(--green-l);border:1px solid rgba(29,185,84,.2);">
+          <div class="sbox-lbl" style="color:var(--green);">Sektor</div>
+          <div class="sbox-val">Banking & Coal</div>
+        </div>
+        <div class="sbox" style="background:var(--orange-l);border:1px solid rgba(255,149,0,.2);">
+          <div class="sbox-lbl" style="color:var(--orange);">Alokasi Max</div>
+          <div class="sbox-val">15–25%</div>
+        </div>
+        <div class="sbox" style="background:rgba(175,82,222,.08);border:1px solid rgba(175,82,222,.2);">
+          <div class="sbox-lbl" style="color:var(--purple);">Horizon</div>
+          <div class="sbox-val">3–5 Hari</div>
+        </div>
+      </div>
+      <div>
+        <div class="si"><div class="si-dot" style="background:var(--green);"></div><div class="si-text">Prioritaskan ADRO — coal demand independen dari crude oil, buy vol on dip</div></div>
+        <div class="si"><div class="si-dot" style="background:var(--blue);"></div><div class="si-text">BBRI rebound play 3–5 hari — rupiah menguat = positif NIM</div></div>
+        <div class="si"><div class="si-dot" style="background:var(--orange);"></div><div class="si-text">IHSG di bawah SMA 200 — bukan reversal struktural, disiplin stop loss</div></div>
+        <div class="si"><div class="si-dot" style="background:var(--red);"></div><div class="si-text">Jika masih pegang MEDC/ENRG dari kemarin, pertimbangkan partial take profit</div></div>
+      </div>
+    </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="g disc fu d8">
+  ⚠️ <strong>Disclaimer:</strong> Analisis ini bersifat edukatif dan bukan merupakan rekomendasi investasi. Seluruh keputusan investasi adalah tanggung jawab pembaca. Past performance is not indicative of future results. Investasi saham mengandung risiko termasuk risiko kehilangan modal.
+  <br>IHSG Market Brief &nbsp;·&nbsp; 10 Maret 2026 &nbsp;·&nbsp; Apple VisionOS Edition
+</div>
+
+</div><!-- /page -->
+
+<script>
+// ── SPARKLINE ──
+(function(){
+  const pts=[7585,7620,7490,7337,7470],W=300,H=48,pd=5;
+  const mn=Math.min(...pts)-80,mx=Math.max(...pts)+80;
+  const xs=pts.map((_,i)=>pd+i*(W-2*pd)/(pts.length-1));
+  const ys=pts.map(v=>H-pd-(v-mn)/(mx-mn)*(H-2*pd));
+  const ld=xs.map((x,i)=>`${i?'L':'M'}${x},${ys[i]}`).join(' ');
+  document.getElementById('sa').setAttribute('d',ld+` L${xs[4]},${H} L${xs[0]},${H} Z`);
+  document.getElementById('sl').setAttribute('d',ld);
+  const dg=document.getElementById('sd');
+  pts.forEach((v,i)=>{
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',xs[i]);c.setAttribute('cy',ys[i]);c.setAttribute('r','3.5');
+    c.setAttribute('fill',v===Math.min(...pts)?'#FF3B30':v===Math.max(...pts)?'#1DB954':'#007AFF');
+    c.setAttribute('stroke','white');c.setAttribute('stroke-width','2');
+    dg.appendChild(c);
+  });
+})();
+
+// ── MAIN CHART ──
+const CD={
+  ihsg:{d:[7585,7620,7490,7337,7470],l:['4 Mar','5 Mar','6 Mar','9 Mar','10 Mar'],c:'#007AFF',g:'lg-b',p:'',u:''},
+  wti:{d:[72.8,75.1,78.4,101.68,85.3],l:['4 Mar','5 Mar','6 Mar','9 Mar','10 Mar'],c:'#FF3B30',g:'lg-r',p:'$',u:'/bbl'},
+  idr:{d:[16820,16850,16890,16940,16869],l:['4 Mar','5 Mar','6 Mar','9 Mar','10 Mar'],c:'#1DB954',g:'lg-g',p:'Rp',u:''}
+};
+
+function drawChart(k){
+  const d=CD[k],pts=d.d,W=480,H=145,px=24,py=14;
+  const mn=Math.min(...pts)*.997,mx=Math.max(...pts)*1.003;
+  const xs=pts.map((_,i)=>px+i*(W-2*px)/(pts.length-1));
+  const ys=pts.map(v=>py+(1-(v-mn)/(mx-mn))*(H-2*py));
+  const ld=xs.map((x,i)=>`${i?'L':'M'}${x},${ys[i]}`).join(' ');
+  document.getElementById('ca').setAttribute('d',ld+` L${xs[4]},${H} L${xs[0]},${H} Z`);
+  document.getElementById('ca').setAttribute('fill',`url(#${d.g})`);
+  document.getElementById('cl').setAttribute('d',ld);
+  document.getElementById('cl').setAttribute('stroke',d.c);
+  document.getElementById('cxd').setAttribute('fill',d.c);
+  const dg=document.getElementById('cd');dg.innerHTML='';
+  pts.forEach((v,i)=>{
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',xs[i]);c.setAttribute('cy',ys[i]);c.setAttribute('r','5.5');
+    c.setAttribute('fill',d.c);c.setAttribute('stroke','white');c.setAttribute('stroke-width','2.5');
+    c.style.cursor='pointer';
+    c.addEventListener('mouseenter',()=>showTT(xs[i],ys[i],d.l[i],d.p+v.toLocaleString('id')+d.u,d.c));
+    c.addEventListener('mouseleave',hideTT);
+    dg.appendChild(c);
+  });
+  document.getElementById('cxl-labels').innerHTML=d.l.map(x=>`<span>${x}</span>`).join('');
+}
+
+function showTT(x,y,lbl,val,col){
+  const svg=document.getElementById('mc'),r=svg.getBoundingClientRect();
+  const sx=r.width/480,sy=r.height/165;
+  const t=document.getElementById('ctt');
+  t.innerHTML=`<div style="font-size:11px;font-weight:700;color:${col};margin-bottom:3px;">${lbl}</div><div style="font-size:15px;font-weight:800;">${val}</div>`;
+  t.style.left=Math.max(0,x*sx-44)+'px';t.style.top=(y*sy-68)+'px';t.classList.add('on');
+  const cv=document.getElementById('cxl'),cd=document.getElementById('cxd');
+  cv.setAttribute('x1',x);cv.setAttribute('x2',x);cv.style.opacity=1;
+  cd.setAttribute('cx',x);cd.setAttribute('cy',y);cd.style.opacity=1;
+}
+function hideTT(){
+  document.getElementById('ctt').classList.remove('on');
+  document.getElementById('cxl').style.opacity=0;document.getElementById('cxd').style.opacity=0;
+}
+
+function switchChart(k,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');drawChart(k);
+}
+drawChart('ihsg');
+
+// ══════════════════════════════════════════════════════════════
+// LIVE PRICE ENGINE — Yahoo Finance via CORS Proxy
+// Refresh otomatis tiap 60 detik
+// ══════════════════════════════════════════════════════════════
+const PROXY = 'https://corsproxy.io/?';
+const SYMBOLS = {
+  ihsg  : '%5EJKSE',      // IHSG composite
+  adro  : 'ADRO.JK',
+  bbri  : 'BBRI.JK',
+  wti   : 'CL%3DF',       // WTI Crude Futures
+  usdIDR: 'IDR%3DX',      // USD/IDR
+};
+
+// Elemen yang akan di-update
+const EL = {
+  ihsgVal    : document.querySelector('.hero-val'),
+  ihsgPct    : document.querySelector('.pill.pill-g, .pill.pill-r'),
+  ihsgSub    : document.querySelector('.hero-sub'),
+  ihsgSR     : document.querySelector('.current-box div[style*="26px"]'),
+  wtiVal     : document.querySelector('.mc-val[style*="red"]'),
+  idrVal     : document.querySelector('.mc-val[style*="green"]'),
+  lastUpdate : null,  // akan dibuat di bawah
+};
+
+// Inject status bar live
+const statusBar = document.createElement('div');
+statusBar.id = 'live-status';
+statusBar.style.cssText = `
+  position:fixed; bottom:16px; right:16px; z-index:9999;
+  background:rgba(255,255,255,0.88); backdrop-filter:blur(20px);
+  border:1.5px solid rgba(255,255,255,0.95);
+  box-shadow:0 4px 24px rgba(0,0,0,0.10);
+  border-radius:100px; padding:7px 16px;
+  font-size:11px; font-weight:600; color:#4A5568;
+  display:flex; align-items:center; gap:7px;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  transition: opacity 0.3s;
+`;
+statusBar.innerHTML = `<span style="width:7px;height:7px;border-radius:50%;background:#FF9500;display:inline-block;animation:pulse-o 1.5s infinite;" id="ls-dot"></span><span id="ls-text">Menghubungkan ke data live...</span>`;
+document.body.appendChild(statusBar);
+
+// Animasi dot kuning
+const styleTag = document.createElement('style');
+styleTag.textContent = `@keyframes pulse-o{0%,100%{box-shadow:0 0 0 0 rgba(255,149,0,.5);}50%{box-shadow:0 0 0 5px rgba(255,149,0,0);}}
+@keyframes pulse-g{0%,100%{box-shadow:0 0 0 0 rgba(29,185,84,.5);}50%{box-shadow:0 0 0 5px rgba(29,185,84,0);}}
+.live-flash{animation:live-flash-kf 0.5s ease;}
+@keyframes live-flash-kf{0%{opacity:1;}50%{opacity:0.35;}100%{opacity:1;}}`;
+document.head.appendChild(styleTag);
+
+function setStatus(ok, msg) {
+  const dot = document.getElementById('ls-dot');
+  const txt = document.getElementById('ls-text');
+  if (txt) txt.textContent = msg;
+  if (dot) {
+    dot.style.background = ok ? '#1DB954' : '#FF9500';
+    dot.style.animation = ok ? 'pulse-g 2s infinite' : 'pulse-o 1.5s infinite';
+  }
+}
+
+function fmt(n, dec=0) {
+  return n.toLocaleString('id-ID', {minimumFractionDigits:dec, maximumFractionDigits:dec});
+}
+
+function flashEl(el) {
+  if (!el) return;
+  el.classList.remove('live-flash');
+  void el.offsetWidth;
+  el.classList.add('live-flash');
+}
+
+async function fetchQuote(symbol) {
+  const url = PROXY + encodeURIComponent(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1m&range=1d`);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const json = await res.json();
+  const meta = json.chart.result[0].meta;
+  return {
+    price      : meta.regularMarketPrice,
+    prevClose  : meta.previousClose || meta.chartPreviousClose,
+    open       : meta.regularMarketOpen,
+    marketState: meta.marketState,   // "REGULAR" | "PRE" | "POST" | "CLOSED"
+  };
+}
+
+async function updatePrices() {
+  try {
+    setStatus(false, 'Memperbarui harga...');
+
+    // Fetch semua paralel
+    const [ihsg, adro, bbri, wti, idr] = await Promise.all([
+      fetchQuote(SYMBOLS.ihsg),
+      fetchQuote(SYMBOLS.adro),
+      fetchQuote(SYMBOLS.bbri),
+      fetchQuote(SYMBOLS.wti),
+      fetchQuote(SYMBOLS.usdIDR),
+    ]);
+
+    // ── IHSG hero ──
+    const ihsgChg  = ihsg.price - ihsg.prevClose;
+    const ihsgPct  = (ihsgChg / ihsg.prevClose * 100);
+    const ihsgUp   = ihsgChg >= 0;
+
+    if (EL.ihsgVal) {
+      EL.ihsgVal.textContent = fmt(ihsg.price);
+      flashEl(EL.ihsgVal);
+    }
+    // Update pill warna sesuai arah
+    const pillEl = document.querySelector('.hero .pill');
+    if (pillEl) {
+      pillEl.textContent = (ihsgUp ? '▲ +' : '▼ ') + fmt(ihsgPct, 2) + '%';
+      pillEl.className = 'pill ' + (ihsgUp ? 'pill-g' : 'pill-r');
+    }
+    const subEl = document.querySelector('.hero-sub');
+    if (subEl) {
+      subEl.textContent = `Prev close: ${fmt(ihsg.prevClose)}  ·  Perubahan: ${ihsgUp?'+':''}${fmt(ihsgChg, 0)} pts`;
+      flashEl(subEl);
+    }
+    // S/R current box
+    const srBox = document.querySelector('.current-box div[style*="26px"]');
+    if (srBox) { srBox.textContent = fmt(ihsg.price); flashEl(srBox); }
+
+    // ── WTI ──
+    const wtiUp = wti.price >= wti.prevClose;
+    const wtiPct = ((wti.price - wti.prevClose) / wti.prevClose * 100);
+    // Cari macro card WTI: card yang mc-name-nya "WTI Crude Oil"
+    document.querySelectorAll('.mc-name').forEach(el => {
+      if (el.textContent.includes('WTI')) {
+        const card = el.parentElement;
+        const valEl = card.querySelector('.mc-val');
+        const pillEl = card.querySelector('.pill');
+        if (valEl) {
+          valEl.textContent = `$${fmt(wti.price, 2)}`;
+          valEl.style.color = wtiUp ? 'var(--green)' : 'var(--red)';
+          flashEl(valEl);
+        }
+        if (pillEl) {
+          pillEl.textContent = (wtiUp ? '▲ +' : '▼ ') + fmt(Math.abs(wtiPct), 2) + '% hari ini';
+          pillEl.className = 'pill ' + (wtiUp ? 'pill-g' : 'pill-r');
+        }
+      }
+    });
+
+    // ── USD/IDR ──
+    const idrUp = idr.price <= idr.prevClose;
+    document.querySelectorAll('.mc-name').forEach(el => {
+      if (el.textContent.includes('IDR')) {
+        const card = el.parentElement;
+        const valEl = card.querySelector('.mc-val');
+        const pillEl = card.querySelector('.pill');
+        if (valEl) {
+          valEl.textContent = `Rp${fmt(Math.round(idr.price))}`;
+          valEl.style.color = idrUp ? 'var(--green)' : 'var(--red)';
+          flashEl(valEl);
+        }
+        if (pillEl) {
+          const idrChg = idr.prevClose - idr.price;
+          pillEl.textContent = (idrUp ? '▲ Menguat ' : '▼ Melemah ') + fmt(Math.abs(idrChg), 0) + ' poin';
+          pillEl.className = 'pill ' + (idrUp ? 'pill-g' : 'pill-r');
+        }
+      }
+    });
+
+    // ── ADRO card ──
+    const adroChg = adro.price - adro.prevClose;
+    const adroPct = (adroChg / adro.prevClose * 100);
+    document.querySelectorAll('.sc-ticker').forEach(el => {
+      if (el.textContent.trim() === 'ADRO') {
+        const card = el.closest('.sc') || el.parentElement.parentElement.parentElement;
+        const priceEl = card ? card.querySelector('.sc-price-val') : null;
+        if (priceEl) {
+          priceEl.innerHTML = `Rp${fmt(adro.price)}<br><span style="font-size:11px;font-weight:700;color:${adroChg>=0?'var(--green)':'var(--red)'}">${adroChg>=0?'+':''}${fmt(adroPct,2)}%</span>`;
+          flashEl(priceEl);
+        }
+      }
+    });
+
+    // ── BBRI card ──
+    const bbriChg = bbri.price - bbri.prevClose;
+    const bbriPct = (bbriChg / bbri.prevClose * 100);
+    document.querySelectorAll('.sc-ticker').forEach(el => {
+      if (el.textContent.trim() === 'BBRI') {
+        const card = el.closest('.sc') || el.parentElement.parentElement.parentElement;
+        const priceEl = card ? card.querySelector('.sc-price-val') : null;
+        if (priceEl) {
+          priceEl.innerHTML = `Rp${fmt(bbri.price)}<br><span style="font-size:11px;font-weight:700;color:${bbriChg>=0?'var(--green)':'var(--red)'}">${bbriChg>=0?'+':''}${fmt(bbriPct,2)}%</span>`;
+          flashEl(priceEl);
+        }
+      }
+    });
+
+    // ── Update chart data dengan harga terbaru ──
+    CD.ihsg.d[4] = ihsg.price;
+    CD.wti.d[4]  = wti.price;
+    CD.idr.d[4]  = idr.price;
+    drawChart(currentTab || 'ihsg');
+
+    // ── Status bar ──
+    const now = new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    const state = ihsg.marketState === 'REGULAR' ? '🟢 Bursa Buka' : ihsg.marketState === 'CLOSED' ? '🔴 Bursa Tutup' : '🟡 Pre/Post';
+    setStatus(true, `${state}  ·  Update ${now}`);
+
+  } catch(err) {
+    console.warn('Live fetch error:', err);
+    setStatus(false, '⚠️ Gagal update · retry 60s');
+  }
+}
+
+// Jalankan pertama kali + loop tiap 60 detik
+updatePrices();
+setInterval(updatePrices, 60_000);
+</script>
+</body>
+</html>
