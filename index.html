@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>IDX Market Brief — 27 Maret 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg:        #0C0F1A;
+  --bg2:       #111525;
+  --bg3:       #161B2E;
+  --bg4:       #1C2240;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.13);
+  --text:      #E4EAF4;
+  --muted:     #6B7A9A;
+  --muted2:    #8A9BBF;
+  --gold:      #E8B84B;
+  --gold2:     #F5D07A;
+  --emerald:   #34D399;
+  --crimson:   #F87171;
+  --sky:       #60A5FA;
+  --violet:    #A78BFA;
+  --amber:     #FBA94C;
+
+  /* Fluid spacing */
+  --page-px:   clamp(14px, 4vw, 36px);
+  --page-py:   clamp(20px, 4vw, 44px);
+  --card-p:    clamp(14px, 3vw, 22px);
+  --gap:       clamp(10px, 2vw, 16px);
+
+  /* Fluid type */
+  --fs-xs:     clamp(9px, 1.8vw, 11px);
+  --fs-sm:     clamp(10px, 2vw, 12.5px);
+  --fs-base:   clamp(11px, 2.2vw, 13.5px);
+  --fs-md:     clamp(13px, 2.8vw, 16px);
+  --fs-lg:     clamp(18px, 4vw, 28px);
+  --fs-xl:     clamp(28px, 7vw, 52px);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* Subtle grid texture */
+body::before {
+  content:'';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.014) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.014) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none; z-index: 0;
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--page-py) var(--page-px) clamp(40px, 8vw, 80px);
+  position: relative; z-index: 1;
+}
+
+/* Generic card */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: clamp(8px, 2vw, 12px);
+  padding: var(--card-p);
+}
+
+.card-head {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: clamp(12px, 3vw, 18px);
+  display: flex; align-items: center; gap: 8px;
+}
+.card-head::before {
+  content:'';
+  display: block;
+  width: 3px; height: clamp(12px, 2.5vw, 16px);
+  background: var(--gold);
+  border-radius: 2px; flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════
+   MASTHEAD
+═══════════════════════════════════════════ */
+.masthead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  padding-bottom: clamp(16px, 3vw, 24px);
+  margin-bottom: clamp(16px, 3vw, 24px);
+  border-bottom: 1px solid var(--border2);
+}
+
+.masthead-left { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 200px; }
+
+.pub-label {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex; align-items: center; gap: 8px;
+}
+.pub-label::before {
+  content:'';
+  display: inline-block;
+  width: 18px; height: 2px;
+  background: var(--gold);
+}
+
+.pub-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 5vw, 34px);
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.pub-sub {
+  font-size: var(--fs-sm);
+  color: var(--muted2);
+}
+
+.masthead-right {
+  display: flex; flex-direction: column;
+  align-items: flex-start; gap: 7px;
+}
+
+@media (min-width: 480px) {
+  .masthead-right { align-items: flex-end; }
+}
+
+.date-chip {
+  background: var(--gold);
+  color: #0C0F1A;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 3px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.session-info {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: var(--fs-xs);
+  color: var(--muted2);
+}
+
+.live-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(52,211,153,.1);
+  border: 1px solid rgba(52,211,153,.25);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--emerald);
+  letter-spacing: 1px;
+}
+.live-dot {
+  width: 6px; height: 6px;
+  background: var(--emerald);
+  border-radius: 50%;
+  animation: blink 1.8s ease infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ═══════════════════════════════════════════
+   DATA SNAPSHOT BAR
+═══════════════════════════════════════════ */
+.data-bar {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: clamp(7px, 1.5vw, 10px);
+  padding: clamp(10px, 2vw, 13px) clamp(14px, 3vw, 20px);
+  margin-bottom: var(--gap);
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(12px, 2.5vw, 20px);
+  align-items: center;
+}
+
+.db-item { display: flex; flex-direction: column; gap: 2px; }
+.db-k { font-size: var(--fs-xs); color: var(--muted); text-transform: uppercase; letter-spacing: 1px; line-height: 1; }
+.db-v { font-family: 'IBM Plex Mono', monospace; font-size: var(--fs-sm); font-weight: 600; color: var(--text); }
+
+/* ═══════════════════════════════════════════
+   IHSG HERO BANNER
+═══════════════════════════════════════════ */
+.ihsg-banner {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: clamp(8px, 2vw, 12px);
+  padding: clamp(18px, 4vw, 30px) clamp(16px, 4vw, 32px);
+  margin-bottom: var(--gap);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(18px, 3vw, 24px);
+  position: relative; overflow: hidden;
+}
+
+.ihsg-banner::after {
+  content:'';
+  position: absolute; top: 0; right: 0;
+  width: 45%; height: 100%;
+  background: radial-gradient(ellipse 80% 60% at 100% 50%, rgba(96,165,250,.06), transparent);
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .ihsg-banner { grid-template-columns: 2fr 1fr; }
+}
+@media (min-width: 900px) {
+  .ihsg-banner { grid-template-columns: 2fr 1fr 1fr 1fr; }
+}
+
+.ihsg-main {
+  padding-bottom: clamp(14px, 2vw, 0px);
+  border-bottom: 1px solid var(--border);
+}
+@media (min-width: 640px) {
+  .ihsg-main { padding-bottom: 0; border-bottom: none; border-right: 1px solid var(--border); padding-right: clamp(16px, 3vw, 28px); }
+}
+
+.ihsg-eyebrow {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.ihsg-level {
+  font-family: 'Playfair Display', serif;
+  font-size: var(--fs-xl);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+.ihsg-level span { font-size: clamp(16px, 4vw, 28px); color: var(--muted2); font-weight: 700; }
+
+.delta-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 8px; }
+
+.delta-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+.delta-chip.red { background: rgba(248,113,113,.12); color: var(--crimson); border: 1px solid rgba(248,113,113,.2); }
+.delta-chip.grn { background: rgba(52,211,153,.12);  color: var(--emerald); border: 1px solid rgba(52,211,153,.2); }
+.delta-chip.neu { background: rgba(96,165,250,.10);  color: var(--sky);     border: 1px solid rgba(96,165,250,.2); }
+.delta-chip.amb { background: rgba(251,169,76,.12);  color: var(--amber);   border: 1px solid rgba(251,169,76,.2); }
+
+.prev-note {
+  font-size: var(--fs-sm);
+  color: var(--muted2);
+  margin-top: 8px;
+  line-height: 1.55;
+}
+.prev-note strong { color: var(--text); }
+
+.banner-stat {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(8px, 2vw, 0px) 0;
+  border-top: 1px solid var(--border);
+}
+@media (min-width: 640px) {
+  .banner-stat { padding: 0 clamp(14px, 2.5vw, 22px); border-top: none; border-right: 1px solid var(--border); }
+  .banner-stat:last-child { border-right: none; }
+}
+
+.bs-lbl { font-size: var(--fs-xs); font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 5px; }
+.bs-val { font-family: 'IBM Plex Mono', monospace; font-size: var(--fs-md); font-weight: 600; color: var(--text); }
+.bs-sub { font-size: var(--fs-xs); color: var(--muted); margin-top: 3px; }
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE GRID HELPERS
+═══════════════════════════════════════════ */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+  margin-bottom: var(--gap);
+}
+@media (min-width: 640px) {
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+  margin-bottom: var(--gap);
+}
+@media (min-width: 640px) {
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 960px) {
+  .grid-3 { grid-template-columns: 1.35fr 1fr 1fr; }
+}
+
+.full-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: clamp(8px, 2vw, 12px);
+  padding: clamp(16px, 3vw, 24px);
+  margin-bottom: var(--gap);
+}
+
+/* ═══════════════════════════════════════════
+   NARASI
+═══════════════════════════════════════════ */
+.narasi {
+  font-size: var(--fs-base);
+  line-height: 1.82;
+  color: var(--text);
+  opacity: .9;
+}
+.narasi strong { color: var(--gold2); font-weight: 600; }
+.narasi em     { color: var(--sky);   font-style: normal; }
+.narasi .hi    { color: var(--emerald); font-weight: 600; }
+.narasi .lo    { color: var(--crimson); font-weight: 600; }
+
+/* ═══════════════════════════════════════════
+   MACRO TABLE
+═══════════════════════════════════════════ */
+.macro-list { display: flex; flex-direction: column; gap: 2px; }
+.macro-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: clamp(5px, 1.2vw, 8px) 0;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.macro-row:last-child { border-bottom: none; }
+.macro-k { font-size: var(--fs-sm); color: var(--muted2); }
+.macro-v { font-family: 'IBM Plex Mono', monospace; font-size: var(--fs-sm); font-weight: 500; }
+.g { color: var(--emerald) !important; }
+.r { color: var(--crimson) !important; }
+.n { color: var(--text)    !important; }
+.a { color: var(--amber)   !important; }
+.v { color: var(--violet)  !important; }
+
+/* ═══════════════════════════════════════════
+   LEVEL MAP
+═══════════════════════════════════════════ */
+.level-map { display: flex; flex-direction: column; gap: 7px; }
+.level-row { display: flex; align-items: center; gap: 10px; }
+.level-tag { font-size: var(--fs-xs); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; width: 60px; flex-shrink: 0; }
+.level-tag.s { color: var(--emerald); }
+.level-tag.r { color: var(--crimson); }
+.level-bar { flex: 1; height: 3px; border-radius: 10px; }
+.level-bar.s { background: linear-gradient(90deg, var(--emerald), transparent); }
+.level-bar.r { background: linear-gradient(90deg, transparent, var(--crimson)); }
+.level-bar.r2 { background: linear-gradient(90deg, transparent, rgba(248,113,113,.6)); }
+.level-bar.r3 { background: linear-gradient(90deg, transparent, rgba(248,113,113,.4)); }
+.level-bar.s2 { background: linear-gradient(90deg, rgba(52,211,153,.5), transparent); }
+.level-bar.s3 { background: linear-gradient(90deg, rgba(52,211,153,.25), transparent); }
+.level-val { font-family: 'IBM Plex Mono', monospace; font-size: var(--fs-sm); font-weight: 600; color: var(--text); width: 70px; text-align: right; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════
+   SECTOR MAP
+═══════════════════════════════════════════ */
+.sector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+@media (min-width: 480px) {
+  .sector-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 760px) {
+  .sector-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.sec-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: clamp(6px, 1.5vw, 9px) clamp(8px, 2vw, 12px);
+  border-radius: 6px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid transparent;
+}
+.sec-item.leading { border-color: rgba(52,211,153,.15); background: rgba(52,211,153,.05); }
+.sec-item.lagging { border-color: rgba(248,113,113,.12); background: rgba(248,113,113,.04); }
+
+.sec-name { font-size: var(--fs-xs); color: var(--text); opacity: .8; }
+.sec-pct {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: var(--fs-xs); font-weight: 700;
+  padding: 2px 6px; border-radius: 3px; white-space: nowrap;
+}
+.sec-pct.g { color: var(--emerald); background: rgba(52,211,153,.1); }
+.sec-pct.r { color: var(--crimson); background: rgba(248,113,113,.1); }
+
+/* ═══════════════════════════════════════════
+   REKOMENDASI TABLE  — scrollable on mobile
+═══════════════════════════════════════════ */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+}
+.table-scroll::-webkit-scrollbar { height: 4px; }
+.table-scroll::-webkit-scrollbar-track { background: var(--bg3); border-radius: 10px; }
+.table-scroll::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 10px; }
+
+.rec-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+.rec-table th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border2);
+  white-space: nowrap;
+}
+.rec-table td {
+  padding: clamp(10px, 2vw, 14px) 12px;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  font-size: var(--fs-sm);
+}
+.rec-table tr:last-child td { border-bottom: none; }
+.rec-table tr:hover td { background: rgba(255,255,255,.025); }
+
+.ticker-cell .t { font-family: 'IBM Plex Mono', monospace; font-size: clamp(13px, 2.5vw, 16px); font-weight: 700; color: var(--sky); }
+.ticker-cell .co { font-size: var(--fs-xs); color: var(--muted); margin-top: 2px; white-space: nowrap; }
+.sector-tag {
+  display: inline-block;
+  font-size: 9px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; padding: 1px 6px; border-radius: 3px; margin-top: 3px;
+}
+.sector-tag.energy   { background: rgba(251,169,76,.12);  color: var(--amber); }
+.sector-tag.banking  { background: rgba(96,165,250,.12);  color: var(--sky); }
+.sector-tag.infra    { background: rgba(167,139,250,.12); color: var(--violet); }
+.sector-tag.mining   { background: rgba(232,184,75,.12);  color: var(--gold); }
+
+.rating-badge {
+  display: inline-block;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: .5px; text-transform: uppercase; white-space: nowrap;
+}
+.rating-badge.buy   { background: rgba(52,211,153,.14); color: var(--emerald); border: 1px solid rgba(52,211,153,.25); }
+.rating-badge.accum { background: rgba(232,184,75,.14);  color: var(--gold2);   border: 1px solid rgba(232,184,75,.25); }
+.rating-badge.spec  { background: rgba(96,165,250,.14);  color: var(--sky);     border: 1px solid rgba(96,165,250,.25); }
+
+.mono { font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
+.tp   { color: var(--emerald); font-weight: 700; }
+.sl   { color: var(--crimson); }
+.up   { color: var(--emerald); font-weight: 700; }
+.cat  { font-size: var(--fs-xs); color: var(--muted2); line-height: 1.55; min-width: 170px; }
+
+/* ═══════════════════════════════════════════
+   EMITEN DETAIL CARDS — responsive grid
+═══════════════════════════════════════════ */
+.emiten-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+  margin-bottom: var(--gap);
+}
+@media (min-width: 480px) {
+  .emiten-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 760px) {
+  .emiten-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 960px) {
+  .emiten-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+.emiten-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: clamp(8px, 2vw, 10px);
+  padding: clamp(14px, 3vw, 18px);
+  border-top: 3px solid var(--border2);
+}
+.emiten-card:nth-child(1) { border-top-color: var(--sky); }
+.emiten-card:nth-child(2) { border-top-color: var(--amber); }
+.emiten-card:nth-child(3) { border-top-color: var(--violet); }
+.emiten-card:nth-child(4) { border-top-color: var(--emerald); }
+.emiten-card:nth-child(5) { border-top-color: var(--gold); }
+
+.ec-ticker { font-family: 'IBM Plex Mono', monospace; font-size: clamp(15px, 3vw, 17px); font-weight: 700; color: #fff; margin-bottom: 2px; }
+.ec-name   { font-size: var(--fs-xs); color: var(--muted); margin-bottom: 10px; }
+.ec-pts    { display: flex; flex-direction: column; gap: 5px; }
+.ec-pt     { display: flex; justify-content: space-between; align-items: center; font-size: var(--fs-xs); }
+.ec-pt-label { color: var(--muted); }
+.ec-pt-val   { font-family: 'IBM Plex Mono', monospace; font-size: var(--fs-xs); font-weight: 500; color: var(--text); }
+.ec-pt-val.g { color: var(--emerald); font-weight: 700; }
+.ec-pt-val.r { color: var(--crimson); }
+.ec-pt-val.a { color: var(--amber); }
+.ec-divider  { height: 1px; background: var(--border); margin: 9px 0; }
+.ec-thesis   { font-size: var(--fs-xs); color: var(--muted2); line-height: 1.6; }
+
+/* ═══════════════════════════════════════════
+   SENTIMENT BARS
+═══════════════════════════════════════════ */
+.sent-grid { display: flex; flex-direction: column; gap: 9px; }
+.sent-row  { display: flex; align-items: center; gap: 9px; }
+.sent-lbl  { font-size: var(--fs-xs); color: var(--muted2); width: clamp(80px, 20vw, 105px); flex-shrink: 0; }
+.sent-track { flex: 1; height: 4px; background: rgba(255,255,255,.06); border-radius: 10px; overflow: hidden; }
+.sent-fill  { height: 100%; border-radius: 10px; }
+.sent-val   { font-family: 'IBM Plex Mono', monospace; font-size: var(--fs-xs); color: var(--text); width: 36px; text-align: right; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════
+   OUTLOOK / RISK BOXES
+═══════════════════════════════════════════ */
+.outlook-box {
+  background: linear-gradient(135deg, rgba(52,211,153,.05), rgba(96,165,250,.04));
+  border: 1px solid rgba(52,211,153,.18);
+  border-radius: clamp(8px, 2vw, 10px);
+  padding: clamp(14px, 3vw, 20px);
+  margin-bottom: var(--gap);
+}
+.ob-title { font-size: var(--fs-xs); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--emerald); margin-bottom: 9px; }
+.ob-text  { font-size: var(--fs-base); line-height: 1.75; color: var(--text); opacity: .87; }
+.ob-text strong { color: var(--emerald); }
+
+.risk-box {
+  background: linear-gradient(135deg, rgba(248,113,113,.05), rgba(251,169,76,.03));
+  border: 1px solid rgba(248,113,113,.18);
+  border-radius: clamp(8px, 2vw, 10px);
+  padding: clamp(14px, 3vw, 20px);
+  margin-bottom: var(--gap);
+}
+.rb-title { font-size: var(--fs-xs); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--crimson); margin-bottom: 9px; }
+.rb-list  { display: flex; flex-direction: column; gap: 5px; }
+.rb-item  { font-size: var(--fs-base); color: var(--text); opacity: .78; padding-left: 16px; position: relative; line-height: 1.5; }
+.rb-item::before { content:'▸'; position: absolute; left: 0; color: var(--crimson); font-size: 10px; top: 2px; }
+
+/* ═══════════════════════════════════════════
+   STRATEGY STACK
+═══════════════════════════════════════════ */
+.strat-stack { display: flex; flex-direction: column; gap: 9px; }
+.strat-item {
+  padding: clamp(10px, 2vw, 13px) clamp(12px, 2vw, 15px);
+  border-radius: 8px;
+  border-left: 3px solid var(--border2);
+}
+.strat-item.short   { border-left-color: var(--emerald); background: rgba(52,211,153,.05); }
+.strat-item.medium  { border-left-color: var(--gold);    background: rgba(232,184,75,.05); }
+.strat-item.general { border-left-color: var(--sky);     background: rgba(96,165,250,.05); }
+.si-title { font-size: var(--fs-sm); font-weight: 700; margin-bottom: 4px; }
+.short  .si-title { color: var(--emerald); }
+.medium .si-title { color: var(--gold2); }
+.general .si-title { color: var(--sky); }
+.si-body { font-size: var(--fs-sm); color: var(--muted2); line-height: 1.55; }
+
+/* ═══════════════════════════════════════════
+   SECTION LABEL
+═══════════════════════════════════════════ */
+.section-label {
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: clamp(10px, 2vw, 14px);
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::after { content:''; flex: 1; height: 1px; background: var(--border); }
+
+/* ═══════════════════════════════════════════
+   DISCLAIMER & FOOTER
+═══════════════════════════════════════════ */
+.disclaimer {
+  background: rgba(255,255,255,.02);
+  border: 1px solid var(--border);
+  border-radius: clamp(7px, 2vw, 10px);
+  padding: clamp(14px, 3vw, 18px) clamp(16px, 3vw, 22px);
+  margin-top: clamp(20px, 4vw, 28px);
+}
+.disc-title { font-size: var(--fs-xs); font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.disc-text  { font-size: var(--fs-xs); line-height: 1.75; color: var(--muted); }
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.footer-brand { font-family: 'Playfair Display', serif; font-size: clamp(13px, 2.5vw, 15px); font-weight: 700; color: var(--gold); }
+.footer-meta  { font-family: 'IBM Plex Mono', monospace; font-size: var(--fs-xs); color: var(--muted); }
+
+/* ═══════════════════════════════════════════
+   MOBILE TOUCH HINT
+═══════════════════════════════════════════ */
+.scroll-hint {
+  display: none;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  text-align: center;
+  padding: 6px 0 0;
+  letter-spacing: 0.5px;
+}
+@media (max-width: 720px) {
+  .scroll-hint { display: block; }
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE: collapsible sections via details
+═══════════════════════════════════════════ */
+details { }
+details summary {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+details summary::-webkit-details-marker { display: none; }
+
+.details-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.details-arrow {
+  font-size: 12px;
+  color: var(--gold);
+  transition: transform .25s ease;
+}
+details[open] .details-arrow { transform: rotate(180deg); }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ══════════════ MASTHEAD ══════════════ -->
+  <div class="masthead">
+    <div class="masthead-left">
+      <div class="pub-label">Equity Research · IDX Intelligence Desk</div>
+      <div class="pub-title">Indonesia Capital Market<br>Daily Market Brief</div>
+      <div class="pub-sub">Analisis Teknikal, Fundamental &amp; Makro Terpadu</div>
+    </div>
+    <div class="masthead-right">
+      <div class="date-chip">Jumat, 27 Maret 2026</div>
+      <div class="session-info">Hari ke-3 Pasca Lebaran 1447H</div>
+      <div class="live-pill"><span class="live-dot"></span>Market Open</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ SNAPSHOT BAR ══════════════ -->
+  <div class="data-bar">
+    <div class="db-item"><span class="db-k">IHSG Prev.</span><span class="db-v" style="color:var(--crimson)">7.164,09 (−1,89%)</span></div>
+    <div class="db-item"><span class="db-k">Target Hari Ini</span><span class="db-v" style="color:var(--amber)">7.200 – 7.400</span></div>
+    <div class="db-item"><span class="db-k">LQ45</span><span class="db-v" style="color:var(--crimson)">732,82 (−1,83%)</span></div>
+    <div class="db-item"><span class="db-k">USD/IDR</span><span class="db-v" style="color:var(--amber)">Rp 16.890</span></div>
+    <div class="db-item"><span class="db-k">Brent</span><span class="db-v" style="color:var(--crimson)">$102/bbl</span></div>
+    <div class="db-item"><span class="db-k">BI Rate</span><span class="db-v">4,75% Hold</span></div>
+    <div class="db-item"><span class="db-k">S&amp;P 500</span><span class="db-v" style="color:var(--emerald)">+0,54%</span></div>
+  </div>
+
+  <!-- ══════════════ IHSG BANNER ══════════════ -->
+  <div class="ihsg-banner">
+    <div class="ihsg-main">
+      <div class="ihsg-eyebrow">IHSG · IDX Composite — Penutupan Kemarin (26/3)</div>
+      <div class="ihsg-level">7.164<span>,09</span></div>
+      <div class="delta-row">
+        <span class="delta-chip red">▼ −138,03 poin</span>
+        <span class="delta-chip red">−1,89%</span>
+        <span class="delta-chip neu">Vol: Rp32,35T</span>
+      </div>
+      <div class="prev-note">
+        Dibuka 7.311 → ditutup 7.164 | Range: 7.154 – 7.323<br>
+        <strong>Profit-taking</strong> setelah Iran menolak negosiasi langsung dengan AS
+      </div>
+    </div>
+    <div class="banner-stat">
+      <div class="bs-lbl">Support Kritis</div>
+      <div class="bs-val" style="color:var(--emerald)">7.156</div>
+      <div class="bs-sub">&amp; 7.022 (mayor)</div>
+    </div>
+    <div class="banner-stat">
+      <div class="bs-lbl">Resistance</div>
+      <div class="bs-val" style="color:var(--amber)">7.339–7.400</div>
+      <div class="bs-sub">MA10 + Psikologis</div>
+    </div>
+    <div class="banner-stat">
+      <div class="bs-lbl">Breadth</div>
+      <div class="bs-val" style="color:var(--crimson)">292 naik</div>
+      <div class="bs-sub">380 turun · 148 flat</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ NARASI + MAKRO + LEVEL ══════════════ -->
+  <div class="grid-3">
+
+    <!-- Narasi -->
+    <div class="card">
+      <div class="card-head">Narasi Pasar — Analisis Independen</div>
+      <div class="narasi">
+        IHSG menutup sesi Kamis dengan koreksi tajam <strong>−1,89% ke 7.164</strong>, berbalik dari pembukaan positif 7.311. Ini adalah pola <em>false breakout</em> klasik — indeks gagal sustained di atas zona 7.300–7.374, memicu profit-taking setelah rally besar +2,75% sehari sebelumnya.<br><br>
+        Pemicu utama: <strong>Iran menegaskan menolak negosiasi langsung</strong> dengan AS, membatalkan ekspektasi de-eskalasi yang menjadi fondasi rally 25 Maret. Sentimen regional Asia juga bias melemah, sementara DXY menguat ke 99,60 menciptakan tekanan tambahan terhadap mata uang EM termasuk rupiah.<br><br>
+        Namun secara teknikal, koreksi ini belum bersifat struktural. <em>Histogram MACD negatif menyempit</em>, Stochastic RSI bergerak ke pivot, dan IHSG <strong>masih bertahan di atas MA5</strong>. Hari ini (27/3), dengan efek musim dividen dan sinyal disiplin fiskal pemerintah, proyeksi mengarah ke <span class="hi">rebound terbatas</span> menuju 7.339–7.400.
+      </div>
+    </div>
+
+    <!-- Makro -->
+    <div class="card">
+      <div class="card-head">Indikator Makro &amp; Sentimen Regional</div>
+      <div class="macro-list">
+        <div class="macro-row"><span class="macro-k">BI Rate (Hold 6x)</span><span class="macro-v n">4,75%</span></div>
+        <div class="macro-row"><span class="macro-k">USD/IDR Spot</span><span class="macro-v a">Rp 16.890</span></div>
+        <div class="macro-row"><span class="macro-k">Brent Crude</span><span class="macro-v r">USD 102/bbl</span></div>
+        <div class="macro-row"><span class="macro-k">WTI Crude</span><span class="macro-v r">USD 87/bbl</span></div>
+        <div class="macro-row"><span class="macro-k">US 10Y Treasury</span><span class="macro-v g">4,33% ▼</span></div>
+        <div class="macro-row"><span class="macro-k">DXY (Dollar Index)</span><span class="macro-v r">99,60 ▲ (+0,17%)</span></div>
+        <div class="macro-row"><span class="macro-k">Emas Antam</span><span class="macro-v n">Rp 2,84 jt/gr</span></div>
+        <div class="macro-row"><span class="macro-k">Wall Street (Rabu)</span><span class="macro-v g">S&amp;P +0,54% | NDX +0,77%</span></div>
+        <div class="macro-row"><span class="macro-k">Proj. GDP Q1 '26</span><span class="macro-v g">+6,0% YoY</span></div>
+        <div class="macro-row"><span class="macro-k">MSCI May Review</span><span class="macro-v r">Risiko penurunan bobot RI</span></div>
+        <div class="macro-row"><span class="macro-k">Disiplin Fiskal</span><span class="macro-v g">Efisiensi Rp80T ✓</span></div>
+      </div>
+    </div>
+
+    <!-- Level teknikal -->
+    <div class="card">
+      <div class="card-head">Level Teknikal IHSG</div>
+      <div class="level-map" style="margin-bottom:16px;">
+        <div class="level-row">
+          <div class="level-tag r">R3</div>
+          <div class="level-bar r"></div>
+          <div class="level-val" style="color:var(--crimson)">7.527</div>
+        </div>
+        <div class="level-row">
+          <div class="level-tag r">R2</div>
+          <div class="level-bar r2"></div>
+          <div class="level-val" style="color:var(--crimson)">7.450</div>
+        </div>
+        <div class="level-row">
+          <div class="level-tag r">R1</div>
+          <div class="level-bar r3"></div>
+          <div class="level-val" style="color:var(--amber)">7.339–7.400</div>
+        </div>
+        <div style="padding:5px 0; text-align:center; font-size:var(--fs-xs); color:var(--muted); font-family:'IBM Plex Mono',monospace; letter-spacing:1px;">── CURRENT 7.164 ──</div>
+        <div class="level-row">
+          <div class="level-tag s">S1</div>
+          <div class="level-bar s2"></div>
+          <div class="level-val" style="color:var(--emerald)">7.156</div>
+        </div>
+        <div class="level-row">
+          <div class="level-tag s">S2</div>
+          <div class="level-bar s3"></div>
+          <div class="level-val" style="color:var(--emerald)">7.022</div>
+        </div>
+        <div class="level-row">
+          <div class="level-tag s">S3</div>
+          <div class="level-bar s" style="background:linear-gradient(90deg,rgba(52,211,153,.12),transparent)"></div>
+          <div class="level-val" style="color:var(--emerald)">6.887</div>
+        </div>
+      </div>
+      <div style="font-size:var(--fs-xs); color:var(--muted2); line-height:1.65; border-top:1px solid var(--border); padding-top:12px;">
+        <strong style="color:var(--text)">Sinyal hari ini:</strong> MACD histogram negatif menyempit → momentum jual melemah. Stochastic RSI menuju pivot. IHSG di atas MA5. Proyeksi: <strong style="color:var(--amber)">sideways–rebound terbatas.</strong>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ SEKTOR MAP ══════════════ -->
+  <div class="full-card">
+    <details open>
+      <summary>
+        <div class="details-toggle">
+          <div class="card-head" style="margin-bottom:0;">Peta Sektoral IDX — Penutupan 26 Maret 2026</div>
+          <span class="details-arrow">▼</span>
+        </div>
+      </summary>
+      <div style="margin-top:14px;">
+        <div class="sector-grid">
+          <div class="sec-item leading"><span class="sec-name">🚌 Transportasi</span><span class="sec-pct g">+2,96%</span></div>
+          <div class="sec-item"><span class="sec-name">🏦 Keuangan</span><span class="sec-pct r">−0,82%</span></div>
+          <div class="sec-item"><span class="sec-name">🏠 Properti</span><span class="sec-pct r">−0,90%</span></div>
+          <div class="sec-item"><span class="sec-name">💻 Teknologi</span><span class="sec-pct r">−0,55%</span></div>
+          <div class="sec-item"><span class="sec-name">🏥 Kesehatan</span><span class="sec-pct r">−0,41%</span></div>
+          <div class="sec-item"><span class="sec-name">📡 Infrastruktur</span><span class="sec-pct r">−1,63%</span></div>
+          <div class="sec-item"><span class="sec-name">🛒 Consumer Primer</span><span class="sec-pct r">−1,24%</span></div>
+          <div class="sec-item"><span class="sec-name">🛍️ Non-Primer</span><span class="sec-pct r">−1,80%</span></div>
+          <div class="sec-item lagging"><span class="sec-name">🏭 Industri</span><span class="sec-pct r">−2,79%</span></div>
+          <div class="sec-item lagging"><span class="sec-name">⚡ Energi</span><span class="sec-pct r">−2,91%</span></div>
+          <div class="sec-item lagging"><span class="sec-name">⛏️ Barang Baku</span><span class="sec-pct r">−2,27%</span></div>
+          <div class="sec-item" style="background:rgba(248,113,113,.05);border-color:rgba(248,113,113,.15);">
+            <span class="sec-name" style="color:var(--crimson)">292↑ / 380↓</span>
+            <span class="sec-pct r">Bearish</span>
+          </div>
+        </div>
+        <p style="margin-top:11px; font-size:var(--fs-xs); color:var(--muted2); line-height:1.65; border-top:1px solid var(--border); padding-top:10px;">
+          <strong style="color:var(--amber)">Pola koreksi:</strong> Broad-based profit-taking — sektor energi &amp; industri yang memimpin rally 25/3 menjadi paling tertekan 26/3. Koreksi bersifat teknikal, bukan perubahan fundamental. Sektor keuangan relatif resilient (−0,82%) → sinyal modal besar belum keluar.
+        </p>
+      </div>
+    </details>
+  </div>
+
+  <!-- ══════════════ REKOMENDASI TABLE ══════════════ -->
+  <div class="full-card">
+    <div class="card-head" style="margin-bottom:16px;">Rekomendasi Saham Pilihan — 27 Maret 2026</div>
+    <div class="scroll-hint">← Geser untuk lihat lengkap →</div>
+    <div class="table-scroll" style="margin-top:6px;">
+      <table class="rec-table">
+        <thead>
+          <tr>
+            <th>Emiten</th>
+            <th>Rating</th>
+            <th>Entry / Last</th>
+            <th>Target</th>
+            <th>Stop Loss</th>
+            <th>Upside</th>
+            <th>Katalis Utama</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="ticker-cell">
+              <div class="t">BMRI</div>
+              <div class="co">Bank Mandiri (Persero)</div>
+              <span class="sector-tag banking">Perbankan</span>
+            </td>
+            <td><span class="rating-badge buy">Buy</span></td>
+            <td><span class="mono">Rp 4.890–5.000</span></td>
+            <td><span class="mono tp">Rp 5.950</span></td>
+            <td><span class="mono sl">Rp 4.600</span></td>
+            <td><span class="up">+19%</span></td>
+            <td class="cat">Koreksi ke support historis. CASA 69,3%, NPL 1,1%, NIM target 4,8–5%. Valuasi PBV di bawah −2 std historis. Musim dividen sebagai katalis.</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">
+              <div class="t">MEDC</div>
+              <div class="co">Medco Energi Internasional</div>
+              <span class="sector-tag energy">Migas · Energi</span>
+            </td>
+            <td><span class="rating-badge buy">Buy</span></td>
+            <td><span class="mono">Rp 1.730–1.825</span></td>
+            <td><span class="mono tp">Rp 2.113</span></td>
+            <td><span class="mono sl">Rp 1.570</span></td>
+            <td><span class="up">+16%</span></td>
+            <td class="cat">EBITDA margin 52,8%. Moody's upgrade Ba3. Korelasi langsung Brent >$100. Konsensus 7 analis TP Rp2.113. YoY return +83%.</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">
+              <div class="t">BBCA</div>
+              <div class="co">Bank Central Asia</div>
+              <span class="sector-tag banking">Perbankan</span>
+            </td>
+            <td><span class="rating-badge accum">Akumulasi</span></td>
+            <td><span class="mono">Rp 6.700–6.900</span></td>
+            <td><span class="mono tp">Rp 8.500</span></td>
+            <td><span class="mono sl">Rp 6.375</span></td>
+            <td><span class="up">+23%</span></td>
+            <td class="cat">Ex-dividen berlalu → tekanan jual mereda. 23/23 analis Strong Buy. CASA ~80%, ROE >20%. Diskon 30% dari ATH.</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">
+              <div class="t">AADI</div>
+              <div class="co">Adaro Andalan Indonesia</div>
+              <span class="sector-tag mining">Batu Bara</span>
+            </td>
+            <td><span class="rating-badge buy">Buy</span></td>
+            <td><span class="mono">Rp 10.800–11.000</span></td>
+            <td><span class="mono tp">Rp 12.400</span></td>
+            <td><span class="mono sl">Rp 9.800</span></td>
+            <td><span class="up">+13%</span></td>
+            <td class="cat">BRI Danareksa TP Rp12.400 (DCF). Proyeksi laba +44–84%. Hedge energi geopolitik. Minyak tinggi → batu bara premium ikut naik.</td>
+          </tr>
+          <tr>
+            <td class="ticker-cell">
+              <div class="t">TLKM</div>
+              <div class="co">Telkom Indonesia (Persero)</div>
+              <span class="sector-tag infra">Infrastruktur</span>
+            </td>
+            <td><span class="rating-badge accum">Akumulasi</span></td>
+            <td><span class="mono">Rp 3.100–3.300</span></td>
+            <td><span class="mono tp">Rp 3.887</span></td>
+            <td><span class="mono sl">Rp 2.950</span></td>
+            <td><span class="up">+18%</span></td>
+            <td class="cat">Fair value konsensus Rp3.887. Diskon besar dari historis. Digitalisasi BUMN &amp; cloud sebagai growth driver. Dividen yield stabil.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════════ EMITEN DETAIL CARDS ══════════════ -->
+  <div class="section-label">Justifikasi Mendalam Per Emiten</div>
+  <div class="emiten-grid">
+
+    <div class="emiten-card">
+      <div class="ec-ticker">BMRI</div>
+      <div class="ec-name">Bank Mandiri · Keuangan</div>
+      <div class="ec-pts">
+        <div class="ec-pt"><span class="ec-pt-label">Entry</span><span class="ec-pt-val a">4.890–5.000</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">Target</span><span class="ec-pt-val g">5.950</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">Stop Loss</span><span class="ec-pt-val r">4.600</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">52W Range</span><span class="ec-pt-val">4.010–5.575</span></div>
+      </div>
+      <div class="ec-divider"></div>
+      <div class="ec-thesis">BMRI di support historis. CASA 69,3%, NPL bruto 1,1%. PBV di kisaran −2 std deviasi. Sinyal akumulasi institusional terdeteksi. Katalis: dividen &amp; fiskal stabil.</div>
+    </div>
+
+    <div class="emiten-card">
+      <div class="ec-ticker">MEDC</div>
+      <div class="ec-name">Medco Energi · Migas</div>
+      <div class="ec-pts">
+        <div class="ec-pt"><span class="ec-pt-label">Entry</span><span class="ec-pt-val a">1.730–1.825</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">Target</span><span class="ec-pt-val g">2.113</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">Stop Loss</span><span class="ec-pt-val r">1.570</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">52W Range</span><span class="ec-pt-val">875–2.000</span></div>
+      </div>
+      <div class="ec-divider"></div>
+      <div class="ec-thesis">Korelasi langsung harga minyak. EBITDA margin 52,8%. Moody's upgrade Ba3. Laba Q3 vs Q2 +145%. Konsensus 7 analis TP Rp2.113–2.542.</div>
+    </div>
+
+    <div class="emiten-card">
+      <div class="ec-ticker">BBCA</div>
+      <div class="ec-name">Bank Central Asia · Keuangan</div>
+      <div class="ec-pts">
+        <div class="ec-pt"><span class="ec-pt-label">Entry</span><span class="ec-pt-val a">6.700–6.900</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">Target</span><span class="ec-pt-val g">8.500</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">Stop Loss</span><span class="ec-pt-val r">6.375</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">52W Range</span><span class="ec-pt-val">6.375–9.800</span></div>
+      </div>
+      <div class="ec-divider"></div>
+      <div class="ec-thesis">Bank terbaik RI secara konsensus. CASA ~80%. EPS stabil Rp114/saham. Ex-date dividen selesai → tekanan berlalu. 23/23 analis Strong Buy.</div>
+    </div>
+
+    <div class="emiten-card">
+      <div class="ec-ticker">AADI</div>
+      <div class="ec-name">Adaro Andalan · Batu Bara</div>
+      <div class="ec-pts">
+        <div class="ec-pt"><span class="ec-pt-label">Entry</span><span class="ec-pt-val a">10.800–11.000</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">Target</span><span class="ec-pt-val g">12.400</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">Stop Loss</span><span class="ec-pt-val r">9.800</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">BRI Danareksa TP</span><span class="ec-pt-val">12.400 (DCF)</span></div>
+      </div>
+      <div class="ec-divider"></div>
+      <div class="ec-thesis">Batu bara sebagai hedge energi geopolitik. Proj. laba +44–84%. Kas kuat, leverage rendah. JP Morgan: potensi dividen dua kali setahun.</div>
+    </div>
+
+    <div class="emiten-card">
+      <div class="ec-ticker">TLKM</div>
+      <div class="ec-name">Telkom Indonesia · Infrastruktur</div>
+      <div class="ec-pts">
+        <div class="ec-pt"><span class="ec-pt-label">Entry</span><span class="ec-pt-val a">3.100–3.300</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">Target</span><span class="ec-pt-val g">3.887</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">Stop Loss</span><span class="ec-pt-val r">2.950</span></div>
+        <div class="ec-pt"><span class="ec-pt-label">Fair Value</span><span class="ec-pt-val">3.887 (konsensus)</span></div>
+      </div>
+      <div class="ec-divider"></div>
+      <div class="ec-thesis">Saham defensif diskon besar dari fair value. Agenda digital BUMN + data center. Dividen yield stabil. Ideal sebagai core holding jangka menengah.</div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ OUTLOOK + RISIKO + STRATEGI ══════════════ -->
+  <div class="grid-2">
+
+    <div>
+      <div class="outlook-box">
+        <div class="ob-title">↗ Outlook &amp; Skenario IHSG</div>
+        <div class="ob-text">
+          Koreksi 26/3 bersifat <strong>teknikal (profit-taking)</strong>, bukan perubahan fundamental. MACD menyempit dan RSI menuju pivot — kondisi mendukung <strong>rebound</strong> hari ini. Jika IHSG berhasil menembus <strong>7.339–7.400</strong> dengan volume meningkat, potensi lanjut ke <strong>7.450–7.500</strong> dalam jangka pendek.<br><br>
+          Katalis positif: musim dividen Q1, disiplin fiskal Rp80T, dan harapan The Fed turun bunga di H2 2026. Skenario bearish: koreksi ke 7.022–6.887 jika geopolitik Iran kembali eskalasi.
+        </div>
+      </div>
+
+      <div class="risk-box">
+        <div class="rb-title">⚠ Risiko Utama yang Dipantau</div>
+        <div class="rb-list">
+          <div class="rb-item">Iran eskalasi → minyak kembali ke US$110+</div>
+          <div class="rb-item">MSCI May 2026: potensi penurunan bobot Indonesia</div>
+          <div class="rb-item">Rupiah di atas Rp17.000 → capital outflow EM</div>
+          <div class="rb-item">Fed hold sepanjang 2026 → DXY kuat, EM tertekan</div>
+          <div class="rb-item">Tarif AS baru terhadap Indonesia</div>
+          <div class="rb-item">NPL perbankan meningkat jika UMKM memburuk</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">Indikator Sentimen</div>
+      <div class="sent-grid" style="margin-bottom:20px;">
+        <div class="sent-row">
+          <span class="sent-lbl">Breadth</span>
+          <div class="sent-track"><div class="sent-fill" style="width:43%;background:var(--crimson)"></div></div>
+          <span class="sent-val">43%</span>
+        </div>
+        <div class="sent-row">
+          <span class="sent-lbl">Asing Net Buy</span>
+          <div class="sent-track"><div class="sent-fill" style="width:50%;background:var(--amber)"></div></div>
+          <span class="sent-val" style="color:var(--amber)">Lemah</span>
+        </div>
+        <div class="sent-row">
+          <span class="sent-lbl">Volume</span>
+          <div class="sent-track"><div class="sent-fill" style="width:78%;background:var(--emerald)"></div></div>
+          <span class="sent-val" style="color:var(--emerald)">Tinggi</span>
+        </div>
+        <div class="sent-row">
+          <span class="sent-lbl">RSI IHSG</span>
+          <div class="sent-track"><div class="sent-fill" style="width:44%;background:var(--amber)"></div></div>
+          <span class="sent-val">44</span>
+        </div>
+        <div class="sent-row">
+          <span class="sent-lbl">Geopolitik</span>
+          <div class="sent-track"><div class="sent-fill" style="width:72%;background:var(--crimson)"></div></div>
+          <span class="sent-val" style="color:var(--crimson)">High</span>
+        </div>
+        <div class="sent-row">
+          <span class="sent-lbl">Fundamental</span>
+          <div class="sent-track"><div class="sent-fill" style="width:70%;background:var(--emerald)"></div></div>
+          <span class="sent-val" style="color:var(--emerald)">70%</span>
+        </div>
+        <div class="sent-row">
+          <span class="sent-lbl">Seasonal</span>
+          <div class="sent-track"><div class="sent-fill" style="width:65%;background:var(--gold)"></div></div>
+          <span class="sent-val" style="color:var(--gold)">+</span>
+        </div>
+      </div>
+
+      <div class="card-head" style="margin-top:6px;">Strategi per Horizon Waktu</div>
+      <div class="strat-stack">
+        <div class="strat-item short">
+          <div class="si-title">↗ Jangka Pendek (1–2 pekan)</div>
+          <div class="si-body">Trading rebound: MEDC, AADI, BMRI. Target IHSG 7.339–7.400. Stop loss ketat. Pantau berita Iran harian.</div>
+        </div>
+        <div class="strat-item medium">
+          <div class="si-title">▶ Jangka Menengah (1–3 bulan)</div>
+          <div class="si-body">Akumulasi blue chip terkoreksi dalam: BBCA, TLKM, BMRI. Semua diskon 20–30% dari fair value konsensus.</div>
+        </div>
+        <div class="strat-item general">
+          <div class="si-title">◈ Manajemen Risiko</div>
+          <div class="si-body">Diversifikasi 2–3 sektor. Stop loss disiplin. Jangan alokasi &gt;25% di satu emiten. Sesuaikan sizing dengan profil risiko.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ DISCLAIMER ══════════════ -->
+  <div class="disclaimer">
+    <div class="disc-title">⚖ Disclaimer &amp; Keterbatasan Analisis — Wajib Dibaca</div>
+    <div class="disc-text">
+      Laporan ini disusun semata-mata untuk tujuan <strong>informasional dan edukasi</strong> berdasarkan data publik yang tersedia dari sumber-sumber terpercaya (RTI Business, BEI, Bisnis.com, TradingView, Investing.com) per tanggal 26–27 Maret 2026. <strong>Tidak ada bagian dari laporan ini yang merupakan saran investasi, rekomendasi beli/jual, atau penawaran efek dalam bentuk apapun.</strong> Seluruh proyeksi harga, target, dan stop loss merupakan estimasi analitis — bukan jaminan hasil. Investasi di pasar modal mengandung risiko kehilangan sebagian atau seluruh modal. Kinerja masa lalu bukan indikasi kinerja di masa depan. Investor wajib melakukan due diligence mandiri dan berkonsultasi dengan penasihat investasi berlisensi sebelum mengambil keputusan investasi apapun. Analisis ini merupakan pandangan independen penyusun dan tidak mewakili posisi resmi institusi atau perusahaan sekuritas manapun.
+    </div>
+  </div>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <div class="footer">
+    <div class="footer-brand">IDX Market Intelligence Desk</div>
+    <div class="footer-meta">27 Maret 2026 · Data per 26/3 closing · BEI / RTI / Bisnis.com / TradingView</div>
+  </div>
+
+</div>
+</body>
+</html>
