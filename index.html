@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EconDeck KalSel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0e17;--col:#111827;--card:#1a2235;--card-h:#1f2a40;--brd:#1e293b;--brd2:#334155;--t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;--a-coal:#f59e0b;--a-glob:#3b82f6;--a-pol:#ef4444;--a-econ:#14b8a6;--a-food:#22c55e;--a-fuel:#f97316;--a-core:#a855f7;--a-mkt:#06b6d4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--col);border-bottom:1px solid var(--brd);flex-shrink:0}
+.logo{font-size:18px;font-weight:700;letter-spacing:-.5px;background:linear-gradient(135deg,#f59e0b,#ef4444,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-sub{font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;letter-spacing:1px;text-transform:uppercase}
+.hdr-r{display:flex;align-items:center;gap:14px}
+.dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:pls 2s ease-in-out infinite}
+@keyframes pls{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,.5)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+.st{font-size:12px;color:var(--t3);font-family:'JetBrains Mono',monospace}
+.sel{background:rgba(255,255,255,.06);border:1px solid var(--brd);color:var(--t2);padding:5px 8px;border-radius:6px;font-size:11px;font-family:'JetBrains Mono',monospace;cursor:pointer;outline:none}
+.sel option{background:var(--col);color:var(--t1)}
+.btn{background:rgba(255,255,255,.06);border:1px solid var(--brd);color:var(--t2);padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;display:flex;align-items:center;gap:6px}
+.btn:hover{background:rgba(255,255,255,.1);color:var(--t1)}
+.btn.ld svg{animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.src-list{font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace;max-width:500px;text-align:right;line-height:1.5}
+.deck{display:flex;flex:1;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;gap:1px;background:var(--brd)}
+.col{min-width:340px;max-width:400px;flex:1;display:flex;flex-direction:column;background:var(--col);scroll-snap-align:start}
+.col-h{padding:14px 16px;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:10px;flex-shrink:0;position:relative}
+.col-h::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.col[data-a="coal"] .col-h::before{background:var(--a-coal)}.col[data-a="global"] .col-h::before{background:var(--a-glob)}.col[data-a="policy"] .col-h::before{background:var(--a-pol)}.col[data-a="econ"] .col-h::before{background:var(--a-econ)}.col[data-a="food"] .col-h::before{background:var(--a-food)}.col[data-a="fuel"] .col-h::before{background:var(--a-fuel)}.col[data-a="core"] .col-h::before{background:var(--a-core)}.col[data-a="market"] .col-h::before{background:var(--a-mkt)}
+.col-i{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.col[data-a="coal"] .col-i{background:rgba(245,158,11,.15);color:var(--a-coal)}.col[data-a="global"] .col-i{background:rgba(59,130,246,.15);color:var(--a-glob)}.col[data-a="policy"] .col-i{background:rgba(239,68,68,.15);color:var(--a-pol)}.col[data-a="econ"] .col-i{background:rgba(20,184,166,.15);color:var(--a-econ)}.col[data-a="food"] .col-i{background:rgba(34,197,94,.15);color:var(--a-food)}.col[data-a="fuel"] .col-i{background:rgba(249,115,22,.15);color:var(--a-fuel)}.col[data-a="core"] .col-i{background:rgba(168,85,247,.15);color:var(--a-core)}.col[data-a="market"] .col-i{background:rgba(6,182,212,.15);color:var(--a-mkt)}
+.col-t{font-size:13px;font-weight:600;letter-spacing:-.2px}.col-n{font-size:11px;color:var(--t3);font-family:'JetBrains Mono',monospace;margin-left:auto}
+.feed{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:6px}
+.feed::-webkit-scrollbar{width:5px}.feed::-webkit-scrollbar-track{background:#0f172a}.feed::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:3px}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s ease;text-decoration:none;display:block;color:inherit}
+.card:hover{background:var(--card-h);border-color:var(--brd2);box-shadow:0 4px 12px rgba(0,0,0,.5);transform:translateY(-1px)}
+.card-s{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.card-sn{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--t3);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-tm{font-size:10px;color:var(--t3);font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.card-tt{font-size:13.5px;font-weight:500;line-height:1.45;margin-bottom:4px;color:var(--t1);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-desc{font-size:12px;color:var(--t2);line-height:1.5}
+.card-tg{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.tag{font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--t3);font-family:'JetBrains Mono',monospace}
+.ls,.es,.ers{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;color:var(--t3);font-size:12px;text-align:center;gap:10px}
+.spinner{width:24px;height:24px;border:2px solid var(--brd);border-top-color:var(--t2);border-radius:50%;animation:sp .8s linear infinite}
+.ers{color:#f87171}
+.rbtn{background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.3);color:#f87171;padding:4px 12px;border-radius:5px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:4px}
+.rbtn:hover{background:rgba(248,113,113,.25)}
+.card-new{animation:fsi .4s ease-out}
+@keyframes fsi{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e40af;color:#fff;padding:10px 18px;border-radius:8px;font-size:12px;z-index:1000;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0);pointer-events:auto}
+@media(max-width:768px){.col{min-width:300px}.hdr{padding:10px 14px;flex-wrap:wrap;gap:8px}.src-list{display:none}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div><div class="logo">EconDeck KalSel</div><div class="logo-sub">Economic Intelligence Dashboard</div></div>
+  <div class="hdr-r">
+    <div class="src-list">Bloomberg Technoz · CNBC Indonesia · CNN Indonesia · Kompas · Kontan · Bisnis · Jakarta Post · ANTARA · Reuters · CNBC</div>
+    <select class="sel" id="iv"><option value="300000">5 min</option><option value="600000">10 min</option><option value="900000" selected>15 min</option><option value="1800000">30 min</option></select>
+    <div style="display:flex;align-items:center;gap:8px"><div class="dot" id="dot"></div><span class="st" id="upd">Memuat...</span></div>
+    <button class="btn" onclick="refreshAll()" id="rbtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>Refresh</button>
+  </div>
+</div>
+<div class="deck" id="deck"></div>
+<div class="toast" id="toast"></div>
+<script>
+/* ══════════════════════════════════════════════════════════════
+   DIRECT RSS FEEDS — these return REAL summaries
+   ══════════════════════════════════════════════════════════════ */
+const DF = {
+  cnbc_mkt:  {n:'CNBC Indonesia',  u:'https://www.cnbcindonesia.com/market/rss'},
+  cnbc_nws:  {n:'CNBC Indonesia',  u:'https://www.cnbcindonesia.com/news/rss'},
+  kontan:    {n:'Kontan',           u:'https://www.kontan.co.id/rss'},
+  bisnis:    {n:'Bisnis.com',       u:'https://www.bisnis.com/rss'},
+  antara:    {n:'ANTARA',           u:'https://www.antaranews.com/rss/terkini.xml'},
+  cnn_eko:   {n:'CNN Indonesia',    u:'https://www.cnnindonesia.com/ekonomi/rss'},
+  cnn_nas:   {n:'CNN Indonesia',    u:'https://www.cnnindonesia.com/nasional/rss'},
+  jpost:     {n:'Jakarta Post',     u:'https://www.thejakartapost.com/feed'},
+  cnbc_wrld: {n:'CNBC',             u:'https://www.cnbc.com/id/100727362/device/rss/rss.html'},
+  cnbc_biz:  {n:'CNBC',             u:'https://www.cnbc.com/id/10001147/device/rss/rss.html'},
+};
+const GN_SITES = 'site:bloombergtechnoz.com OR site:kompas.com';
+
+/* ══════════════════════════════════════════════════════════════
+   COLUMNS
+   ══════════════════════════════════════════════════════════════ */
+const COLS = [
+  {id:'coal',title:'Tambang & Komoditas',icon:'⛏️',accent:'coal',
+   feeds:['cnbc_mkt','cnbc_nws','kontan','bisnis','antara','cnn_eko','jpost'],
+   gn:['batubara harga ekspor tambang','nikel smelter hilirisasi komoditas','CPO kelapa sawit ekspor'],
+   must:['batubara','coal','tambang','pertambangan','mining','nikel','nickel','smelter','hilirisasi','komoditas tambang','cpo','kelapa sawit','palm oil','mineral','harga ore','hba','royalti tambang','ekspor batubara','ekspor nikel','ekspor cpo','ekspor komoditas','timah','bauksit','tembaga','bijih nikel','konsentrat','kalimantan','harga batubara','harga nikel'],
+   no:['pilkada','pemilu','gubernur','walikota','bupati','calon','korupsi','vonis','sidang','kriminal','narkoba','sepak bola','liga','turnamen','piala','artis','selebriti','hiburan','film','drama','konser','kecelakaan','gempa','tsunami'],
+   tags:['batubara','coal','nikel','cpo','smelter','hilirisasi','ekspor','tambang','mineral','kalimantan']},
+
+  {id:'global',title:'Ekonomi Internasional',icon:'🌐',accent:'global',
+   feeds:['cnbc_mkt','cnbc_nws','cnbc_wrld','cnbc_biz','jpost','cnn_eko'],
+   gn:['"the Fed" OR "Federal Reserve" suku bunga','geopolitik ekonomi global tarif perdagangan','"trade war" tariff China economy'],
+   must:['the fed','federal reserve','suku bunga','interest rate','imf','world bank','geopolitik','geopolitical','trade war','perang dagang','tarif','tariff','resesi','recession','ekonomi global','global economy','bank sentral','central bank','sanctions','embargo','stimulus','monetary policy','kebijakan moneter','fomc','powell','ecb','china ekonomi','us economy','opec','konflik timur tengah','ukraine','rusia'],
+   no:['pilkada','pemilu lokal','gubernur','walikota','korupsi','vonis','kriminal','narkoba','sepak bola','liga','piala','artis','selebriti','hiburan','film','konser','kecelakaan','divonis mati','hukuman mati'],
+   tags:['the fed','suku bunga','tarif','geopolitik','resesi','trade war','imf','china','bank sentral','opec']},
+
+  {id:'policy',title:'Kebijakan Nasional',icon:'🏛️',accent:'policy',
+   feeds:['cnbc_mkt','cnbc_nws','kontan','bisnis','antara','cnn_eko','cnn_nas'],
+   gn:['kebijakan ekonomi pemerintah Indonesia regulasi','peraturan pemerintah PP perpres ekonomi','UU omnibus law cipta kerja investasi'],
+   must:['kebijakan','regulasi','peraturan','perpres','pp ','uu ','undang-undang','omnibus','revisi uu','ruu','moratorium','larangan ekspor','insentif pajak','pembebasan bea','keringanan pajak','subsidi','anggaran','apbn','apbd','belanja negara','fiskal','defisit anggaran','surplus anggaran','menkeu','sri mulyani','kemenkeu','bea masuk','bea keluar','ppn','cukai','tarif baru','aturan baru','ojk','lps','bkpm','perizinan','deregulasi'],
+   no:['pilkada','pemilu','gubernur','walikota','bupati','calon legislatif','korupsi','vonis','sidang korupsi','kriminal','narkoba','sepak bola','liga','piala','artis','selebriti','hiburan','film','konser','divonis mati','hukuman mati','kecelakaan'],
+   tags:['kebijakan','regulasi','apbn','subsidi','pajak','fiskal','ojk','insentif','menkeu']},
+
+  {id:'econ',title:'Ekonomi Nasional',icon:'📈',accent:'econ',
+   feeds:['cnbc_mkt','cnbc_nws','kontan','bisnis','antara','cnn_eko'],
+   gn:['"Bank Indonesia" OR "BI rate" suku bunga','inflasi Indonesia BPS IHK','pertumbuhan ekonomi PDB Indonesia','rupiah "nilai tukar" kurs'],
+   must:['bank indonesia','bi rate','bi 7-day','suku bunga acuan','inflasi','ihk','bps','rupiah','kurs','nilai tukar','pdb','gdp','pertumbuhan ekonomi','ekonomi indonesia','neraca perdagangan','neraca pembayaran','cadangan devisa','uang beredar','kredit perbankan','likuiditas','defisit transaksi','surplus perdagangan','ekspor impor','konsumsi rumah tangga','investasi domestik','pengangguran','kemiskinan','daya beli','indeks keyakinan konsumen','pmi manufacturing'],
+   no:['pilkada','pemilu','gubernur','walikota','bupati','calon legislatif','korupsi','vonis','sidang korupsi','kriminal','narkoba','sepak bola','liga','piala','artis','selebriti','hiburan','film','konser','divonis mati','hukuman mati','kecelakaan'],
+   tags:['bi rate','inflasi','rupiah','pdb','suku bunga','bps','kurs','neraca','cadangan devisa','pertumbuhan']},
+
+  {id:'food',title:'Volatile Food',icon:'🌾',accent:'food',
+   feeds:['cnbc_nws','kontan','bisnis','antara','cnn_eko'],
+   gn:['"harga beras" OR "harga pangan" OR "harga cabai"','"harga bawang" OR "harga tomat" OR "harga ayam" OR "harga telur"','"minyak goreng" harga stok pangan','impor pangan Bulog gagal panen'],
+   must:['harga beras','harga pangan','beras','cabai','cabe','bawang merah','bawang putih','tomat','daging sapi','daging ayam','ayam','telur','gula','minyak goreng','kedelai','jagung','gandum','terigu','pangan','volatile food','bulog','impor pangan','stok pangan','gagal panen','panen raya','inflasi pangan','harga sembako','sembako','la nina','el nino','harga sayur','bantuan pangan'],
+   no:['pilkada','pemilu','gubernur','walikota','korupsi','vonis','kriminal','narkoba','sepak bola','liga','piala','artis','selebriti','hiburan','film','konser','restoran','kuliner','resep','masakan','chef'],
+   tags:['beras','cabai','bawang','telur','ayam','minyak goreng','pangan','daging','gula','impor','bulog']},
+
+  {id:'fuel',title:'Administered Price',icon:'⛽',accent:'fuel',
+   feeds:['cnbc_mkt','cnbc_nws','kontan','bisnis','antara','cnn_eko'],
+   gn:['"harga BBM" OR pertalite OR pertamax Pertamina','"tarif listrik" OR PLN OR avtur OR "tiket pesawat"','"harga LPG" OR elpiji','OPEC "crude oil" OR "minyak mentah" harga','"subsidi BBM" OR "subsidi energi" Indonesia'],
+   must:['bbm','pertalite','pertamax','solar subsidi','bensin','fuel price','avtur','jet fuel','tiket pesawat','tarif listrik','pln','lpg','elpiji','gas 3 kg','gas melon','gas bumi','pertamina','harga bbm','crude oil','minyak mentah','brent','wti','opec','subsidi bbm','subsidi energi','tarif angkutan','tarif tol','administered price','harga energi','bahan bakar minyak','oil price','harga minyak dunia','harga avtur','tarif air','pdam'],
+   no:['pilkada','pemilu','gubernur','walikota','korupsi','vonis','kriminal','narkoba','sepak bola','liga','piala','artis','selebriti','hiburan','film','konser','kecelakaan lalu lintas'],
+   tags:['bbm','listrik','avtur','lpg','opec','pertamina','crude oil','solar','pertalite','tiket pesawat','pln','minyak']},
+
+  {id:'core',title:'Core Inflation',icon:'💎',accent:'core',
+   feeds:['cnbc_mkt','cnbc_nws','kontan','bisnis','antara'],
+   gn:['"harga emas" OR "gold price" OR Antam "logam mulia"','"inflasi inti" OR "core inflation" Indonesia','"harga properti" OR "real estate" Indonesia'],
+   must:['harga emas','emas antam','emas batangan','emas dunia','gold price','logam mulia','precious metal','antam','pegadaian','inflasi inti','core inflation','harga properti','pasar properti','real estate','sektor properti','biaya pendidikan','biaya kesehatan','tarif jasa','perhiasan','xau','emas naik','emas turun'],
+   no:['pilkada','pemilu','gubernur','walikota','korupsi','vonis','kriminal','narkoba','sepak bola','liga','piala','artis','selebriti','hiburan','film','konser','medali emas','emas olimpiade','piala emas'],
+   tags:['emas','gold','antam','inflasi inti','properti','logam mulia']},
+
+  {id:'market',title:'Pasar Uang & Saham',icon:'📊',accent:'market',
+   feeds:['cnbc_mkt','kontan','bisnis','jpost','cnbc_wrld'],
+   gn:['IHSG "bursa saham" Indonesia IDX','"Wall Street" Nasdaq "Dow Jones"','obligasi SBN yield surat utang','"investor asing" "net buy" OR "net sell" saham','rupiah dollar forex kurs "pasar uang"'],
+   must:['ihsg','jci','idx composite','bursa saham','bursa efek','saham','obligasi','sbn','surat utang','yield obligasi','reksadana','pasar modal','bei','ipo','emiten','dividen','rally saham','koreksi pasar','investor asing','net buy','net sell','wall street','nasdaq','dow jones','s&p 500','nikkei','hang seng','crypto','bitcoin','pasar uang','manajer investasi','surat berharga','asing net','indeks saham','kapitalisasi pasar','saham gocap','lq45'],
+   no:['pilkada','pemilu','gubernur','walikota','korupsi','vonis','kriminal','narkoba','sepak bola','liga','piala','artis','selebriti','hiburan','film','konser'],
+   tags:['ihsg','saham','obligasi','rupiah','forex','ipo','wall street','crypto','investor asing','yield','emiten']}
+];
+
+const GX=['pilkada','pemilihan kepala daerah','divonis mati','hukuman mati','skor pertandingan','jadwal liga','transfer pemain','gosip','perceraian','horoscope','zodiak','ramalan','pencabulan','pembunuhan','pemerkosaan','penculikan','narkotika'];
+
+/* ══════════════════════════════════════════════════════════════
+   FETCH
+   ══════════════════════════════════════════════════════════════ */
+const R2J='https://api.rss2json.com/v1/api.json?rss_url=';
+const PX='https://api.allorigins.win/raw?url=';
+
+function strip(h){const d=document.createElement('div');d.innerHTML=h||'';return d.textContent||d.innerText||''}
+function getSrc(t){const m=t.match(/\s-\s([^-]+)$/);return m?m[1].trim():''}
+function cleanT(t){return t.replace(/\s-\s[^-]+$/,'').trim()}
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+function timeAgo(d){const s=Math.floor((Date.now()-d)/1000);if(isNaN(s)||s<0)return 'baru saja';if(s<60)return 'baru saja';if(s<3600)return`${Math.floor(s/60)}m lalu`;if(s<86400)return`${Math.floor(s/3600)}j lalu`;if(s<604800)return`${Math.floor(s/86400)}h lalu`;return d.toLocaleDateString('id-ID',{day:'numeric',month:'short'})}
+
+// Robust date parser — handles:
+// 1) rss2json format: "2025-06-09 07:00:00" (no timezone, treat as UTC)
+// 2) RSS pubDate: "Mon, 09 Jun 2025 14:00:00 +0700"
+// 3) ISO 8601: "2025-06-09T07:00:00Z"
+function parseDate(raw){
+  if(!raw)return new Date(0);
+  const s=raw.trim();
+  // rss2json returns "YYYY-MM-DD HH:MM:SS" without timezone — this IS UTC
+  if(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(s)){
+    return new Date(s.replace(' ','T')+'Z');
+  }
+  // Standard parse for everything else (RSS dates with timezone, ISO, etc)
+  const d=new Date(s);
+  if(!isNaN(d.getTime()))return d;
+  return new Date(0);
+}
+
+function cleanDesc(raw){
+  let t=strip(raw).trim();
+  t=t.replace(/Baca selengkapnya.*/i,'').replace(/Simak selengkapnya.*/i,'').replace(/Selengkapnya.*/i,'');
+  t=t.replace(/\s*\[…\]\s*/g,'...').replace(/\s*…\s*$/g,'...').replace(/^[\s\n]+/,'');
+  if(t.split('\n').length>3&&t.length<100)return '';
+  return t;
+}
+
+const fc=new Map();
+
+async function fetchDF(key){
+  if(fc.has(key))return fc.get(key);
+  const f=DF[key]; if(!f)return [];
+  let items=[];
+  try{
+    const r=await fetch(R2J+encodeURIComponent(f.u),{signal:AbortSignal.timeout(12000)});
+    if(r.ok){const d=await r.json();if(d.status==='ok'&&d.items)items=d.items.map(i=>({title:(i.title||'').trim(),link:i.link||'',description:cleanDesc(i.description||i.content||''),pubDate:parseDate(i.pubDate),source:f.n}));}
+  }catch{}
+  if(!items.length){
+    try{const r2=await fetch(PX+encodeURIComponent(f.u),{signal:AbortSignal.timeout(12000)});if(r2.ok)items=parseXml(await r2.text(),f.n);}catch{}
+  }
+  fc.set(key,items);return items;
+}
+
+function parseXml(xml,sn){
+  try{
+    const doc=new DOMParser().parseFromString(xml,'text/xml');const items=[];
+    doc.querySelectorAll('item').forEach(el=>{items.push({title:(el.querySelector('title')?.textContent||'').trim(),link:(el.querySelector('link')?.textContent||'').trim(),description:cleanDesc(el.querySelector('description')?.textContent||''),pubDate:parseDate(el.querySelector('pubDate')?.textContent||''),source:sn||''});});
+    doc.querySelectorAll('entry').forEach(el=>{const lk=el.querySelector('link[rel="alternate"]')||el.querySelector('link');items.push({title:(el.querySelector('title')?.textContent||'').trim(),link:lk?.getAttribute('href')||'',description:cleanDesc(el.querySelector('summary')?.textContent||el.querySelector('content')?.textContent||''),pubDate:parseDate(el.querySelector('published')?.textContent||el.querySelector('updated')?.textContent||''),source:sn||''});});
+    return items;
+  }catch{return [];}
+}
+
+async function fetchGN(q){
+  const u=`https://news.google.com/rss/search?q=${encodeURIComponent(q+' '+GN_SITES)}&hl=id&gl=ID&ceid=ID:id`;
+  try{
+    const r=await fetch(R2J+encodeURIComponent(u),{signal:AbortSignal.timeout(12000)});
+    if(!r.ok)throw 0;const d=await r.json();
+    if(d.status!=='ok'||!d.items)return [];
+    return d.items.map(i=>({title:cleanT(i.title||''),link:i.link||'',description:'',pubDate:parseDate(i.pubDate),source:getSrc(i.title||'')}));
+  }catch{
+    try{const r2=await fetch(PX+encodeURIComponent(u),{signal:AbortSignal.timeout(12000)});if(!r2.ok)throw 0;return parseXml(await r2.text(),'').map(i=>({...i,title:cleanT(i.title),source:getSrc(i.title),description:''}));}catch{return [];}
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FILTER
+   ══════════════════════════════════════════════════════════════ */
+function ok(a,col){
+  const title=a.title.toLowerCase();
+  const full=(a.title+' '+a.description).toLowerCase();
+
+  // Hard excludes
+  for(const x of GX)if(full.includes(x))return false;
+  for(const x of col.no)if(full.includes(x.toLowerCase()))return false;
+
+  // Word-boundary aware matcher — prevents "ore" matching "store",
+  // "gas" matching "tugas", "uu " matching random text, etc.
+  function hits(kw,text){
+    const k=kw.toLowerCase();
+    // Multi-word phrases: plain substring is fine (specific enough)
+    if(k.includes(' '))return text.includes(k);
+    // Single short/ambiguous word: require word boundaries
+    const re=new RegExp('(^|[^a-z0-9])'+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'([^a-z0-9]|$)','i');
+    return re.test(text);
+  }
+
+  // Count matches, weighting title hits higher
+  let titleScore=0, bodyScore=0;
+  for(const kw of col.must){
+    if(hits(kw,title))titleScore++;
+    else if(hits(kw,full))bodyScore++;
+  }
+
+  // Decision: relevant if there's a clear signal
+  //  - at least 1 keyword in the TITLE (strong signal), OR
+  //  - at least 2 keywords anywhere (corroborating signals)
+  if(titleScore>=1)return true;
+  if(bodyScore>=2)return true;
+  return false;
+}
+function gt(a,col){const t=(a.title+' '+a.description).toLowerCase();return col.tags.filter(k=>t.includes(k.toLowerCase())).slice(0,3)}
+
+/* ══════════════════════════════════════════════════════════════
+   UI
+   ══════════════════════════════════════════════════════════════ */
+function buildDeck(){
+  const dk=document.getElementById('deck');dk.innerHTML='';
+  COLS.forEach(c=>{const el=document.createElement('div');el.className='col';el.dataset.a=c.accent;el.innerHTML=`<div class="col-h"><div class="col-i">${c.icon}</div><div class="col-t">${c.title}</div><div class="col-n" id="n-${c.id}">—</div></div><div class="feed" id="f-${c.id}"><div class="ls"><div class="spinner"></div><span>Memuat berita...</span></div></div>`;dk.appendChild(el);});
+}
+
+function render(cid,arts,err){
+  const f=document.getElementById(`f-${cid}`),n=document.getElementById(`n-${cid}`),col=COLS.find(c=>c.id===cid);
+  if(err){f.innerHTML=`<div class="ers"><span style="font-size:20px">⚠️</span><span>Gagal memuat</span><button class="rbtn" onclick="loadCol('${cid}')">Coba lagi</button></div>`;n.textContent='!';return;}
+  const seen=new Set();
+  const uni=arts.filter(a=>a.title&&a.title.length>15).sort((a,b)=>{const ta=a.pubDate.getTime(),tb=b.pubDate.getTime();if(isNaN(ta)&&isNaN(tb))return 0;if(isNaN(ta))return 1;if(isNaN(tb))return -1;return tb-ta}).filter(a=>{const k=a.title.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,50);if(seen.has(k))return false;seen.add(k);return true}).slice(0,35);
+  if(!uni.length){f.innerHTML=`<div class="es"><span style="font-size:20px">📭</span><span>Belum ada berita</span><button class="rbtn" onclick="loadCol('${cid}')">Coba lagi</button></div>`;n.textContent='0';return;}
+  n.textContent=uni.length;f.innerHTML='';
+  uni.forEach((a,i)=>{
+    const tg=gt(a,col),c=document.createElement('a');
+    c.className='card card-new';c.href=a.link;c.target='_blank';c.rel='noopener noreferrer';c.style.animationDelay=`${i*30}ms`;
+    c.innerHTML=`<div class="card-s"><span class="card-sn">${esc(a.source)}</span><span class="card-tm">${timeAgo(a.pubDate)}</span></div><div class="card-tt">${esc(a.title)}</div>${a.description?`<div class="card-desc">${esc(a.description)}</div>`:''}${tg.length?`<div class="card-tg">${tg.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`:''}`;
+    f.appendChild(c);
+  });
+}
+
+async function loadCol(cid){
+  const col=COLS.find(c=>c.id===cid);if(!col)return;
+  document.getElementById(`f-${cid}`).innerHTML=`<div class="ls"><div class="spinner"></div><span>Memuat berita...</span></div>`;
+  const all=[];let any=false;
+
+  // 1) Fetch direct RSS feeds (these have real summaries)
+  const dfRes=await Promise.allSettled(col.feeds.map(k=>fetchDF(k)));
+  dfRes.forEach(r=>{if(r.status==='fulfilled'&&r.value?.length){all.push(...r.value);any=true;}});
+
+  // 2) Fetch Google News RSS for Bloomberg Technoz + Kompas (no summary, but titles)
+  if(col.gn?.length){
+    const gnRes=await Promise.allSettled(col.gn.map(q=>fetchGN(q)));
+    gnRes.forEach(r=>{if(r.status==='fulfilled'&&r.value?.length){all.push(...r.value);any=true;}});
+  }
+
+  const filtered=all.filter(a=>ok(a,col));
+  render(cid,filtered,!any&&!filtered.length);
+}
+
+let busy=false,timer=null;
+async function refreshAll(){
+  if(busy)return;busy=true;
+  const b=document.getElementById('rbtn'),d=document.getElementById('dot');
+  b.classList.add('ld');d.style.background='#eab308';
+  fc.clear();
+
+  // 1) Fetch all feeds and Google News for all columns in parallel
+  const colArticles={}; // colId -> raw articles
+  await Promise.allSettled(COLS.map(async col=>{
+    const all=[];let any=false;
+    const dfRes=await Promise.allSettled(col.feeds.map(k=>fetchDF(k)));
+    dfRes.forEach(r=>{if(r.status==='fulfilled'&&r.value?.length){all.push(...r.value);any=true;}});
+    if(col.gn?.length){
+      const gnRes=await Promise.allSettled(col.gn.map(q=>fetchGN(q)));
+      gnRes.forEach(r=>{if(r.status==='fulfilled'&&r.value?.length){all.push(...r.value);any=true;}});
+    }
+    colArticles[col.id]={arts:all.filter(a=>ok(a,col)),any};
+  }));
+
+  // 2) Cross-column dedup: each article goes to the column where it has the most keyword matches
+  const globalClaimed=new Set(); // title keys already assigned to a column
+
+  // Score an article against a column — title matches weighted higher
+  function score(a,col){
+    const title=a.title.toLowerCase();
+    const full=(a.title+' '+a.description).toLowerCase();
+    function hits(kw,text){
+      const k=kw.toLowerCase();
+      if(k.includes(' '))return text.includes(k);
+      const re=new RegExp('(^|[^a-z0-9])'+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'([^a-z0-9]|$)','i');
+      return re.test(text);
+    }
+    let s=0;
+    for(const k of col.must){
+      if(hits(k,title))s+=2;       // title match worth double
+      else if(hits(k,full))s+=1;
+    }
+    return s;
+  }
+
+  // Build a map: titleKey -> {colId, score} for best column
+  const bestCol={}; // titleKey -> colId with highest score
+  for(const col of COLS){
+    const arts=colArticles[col.id]?.arts||[];
+    for(const a of arts){
+      const key=a.title.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,50);
+      const s=score(a,col);
+      if(!bestCol[key]||s>bestCol[key].s){
+        bestCol[key]={cid:col.id,s};
+      }
+    }
+  }
+
+  // 3) Render each column with only articles that belong to it
+  for(const col of COLS){
+    const data=colArticles[col.id];
+    if(!data){render(col.id,[],true);continue;}
+    const owned=data.arts.filter(a=>{
+      const key=a.title.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,50);
+      return bestCol[key]?.cid===col.id;
+    });
+    render(col.id,owned,!data.any&&!owned.length);
+  }
+
+  const now=new Date();
+  document.getElementById('upd').textContent=`Update: ${now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}`;
+  d.style.background='#22c55e';b.classList.remove('ld');busy=false;
+  showToast(`✅ Updated ${now.toLocaleTimeString('id-ID')}`);
+}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
+function setTimer(){if(timer)clearInterval(timer);timer=setInterval(refreshAll,parseInt(document.getElementById('iv').value))}
+document.getElementById('iv').addEventListener('change',setTimer);
+buildDeck();refreshAll();setTimer();
+</script>
+</body>
+</html>
